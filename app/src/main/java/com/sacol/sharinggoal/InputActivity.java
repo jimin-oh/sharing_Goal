@@ -9,15 +9,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -34,10 +31,7 @@ public class InputActivity extends AppCompatActivity {
     private Button input_btn;
     private DatePicker datapicker;
     private String date;
-    private String userEamil = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
     private DatabaseReference mDatabase;
-    private FirebaseFirestore db;
-    private CollectionReference goal_collection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +55,6 @@ public class InputActivity extends AppCompatActivity {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         datapicker.setMinDate(cal.getTimeInMillis());
-        db = FirebaseFirestore.getInstance();
 
     }
 
@@ -84,14 +77,11 @@ public class InputActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             HashMap<Object,String> goal = new HashMap<>();
-//            goal.put("email",userEamil);
             goal.put("goal", input_goal.getText().toString() );
             if (date != null){
                 goal.put("date", date);
-
             }
             mDatabase.child("goalList").child(FirebaseAuth.getInstance().getUid().toString()).push().setValue(goal);
-
             startMainActivity();
         }
     };
@@ -125,8 +115,5 @@ public class InputActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showToast(String str){
-        Toast.makeText(getApplicationContext(),str, Toast.LENGTH_LONG).show();
-    }
 }
 
