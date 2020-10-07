@@ -43,9 +43,7 @@ public class MainActivity extends AppCompatActivity {
             add_btn = findViewById(R.id.add_btn);
             t1 = findViewById(R.id.t1);
             logout_btn = findViewById(R.id.logout_btn);
-            mDatabase = FirebaseDatabase.getInstance();
             btn_mypage = findViewById(R.id.btn_mypage);
-            mReference = mDatabase.getReference("users");
 
         }
         private void setup(){
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener goMypage = new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                starMypageActivity();
+                startMypageActivity();
             }
         };
         View.OnClickListener goSignupPage = new View.OnClickListener(){
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, InputActivity.class);
             startActivity(intent);
         }
-        private void starMypageActivity(){
+        private void startMypageActivity(){
             Intent intent = new Intent(this, MypageActivity.class);
             startActivity(intent);
         }

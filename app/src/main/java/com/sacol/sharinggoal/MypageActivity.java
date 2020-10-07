@@ -30,20 +30,20 @@ public class MypageActivity extends AppCompatActivity {
     }
     private void init() {
         user_name = findViewById(R.id.user_name);
-        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot nameDate : dataSnapshot.getChildren()) {
-                    name = nameDate.child(uid).getValue().toString();
-                }
-                user_name.setText(name);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot nameDate : dataSnapshot.getChildren()) {
+//                    name = nameDate.child(uid).getValue().toString();
+//                }
+//                user_name.setText(name);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
     }
 
