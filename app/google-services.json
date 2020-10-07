@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "213720246550",
+    "firebase_url": "https://sharinggoal-12aba.firebaseio.com",
+    "project_id": "sharinggoal-12aba",
+    "storage_bucket": "sharinggoal-12aba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213720246550:android:65d5b2f1147d8bc2450837",
+        "android_client_info": {
+          "package_name": "com.sacol.sharinggoal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213720246550-rqtel13vcc5ffs58t8g77cfpb1cad8qu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJRBB415N_5vLkhmj6sYMCDfpxmp2ESXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213720246550-rqtel13vcc5ffs58t8g77cfpb1cad8qu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme.StatusBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!--Status Bar 배경색-->
+        <item name="android:statusBarColor" tools:targetApi="lollipop">#467b47</item>
+        <!--Status bar 글자 색-->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#467b47</item>
+        <item name="colorPrimaryDark">#467b47</item>
+        <item name="colorAccent">#000000</item>
+    </style>
+    <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/black</item>
+        <item name="colorControlNormal">@color/black</item>
+    </style>
+
+</resources>
