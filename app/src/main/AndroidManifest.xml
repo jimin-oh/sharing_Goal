@@ -21,6 +21,8 @@
         <activity android:name=".InputActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".MypageActivity"/>
+
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
