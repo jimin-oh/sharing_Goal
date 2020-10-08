@@ -21,9 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-        private TextView t1 ;
         private FloatingActionButton add_btn;
-        private Button logout_btn;
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -34,25 +32,36 @@ public class MainActivity extends AppCompatActivity {
             }
             init();
             setup();
+        ListView listview ;
+        ListViewAdapter adapter;
+
+        // Adapter 생성
+        adapter = new ListViewAdapter() ;
+
+        // 리스트뷰 참조 및 Adapter달기
+        listview = (ListView) findViewById(R.id.listview);
+        listview.setAdapter(adapter);
+
+        // 첫 번째 아이템 추가.
+        adapter.addItem(
+                "Box", "Account Box Black 36dp") ;
+        // 두 번째 아이템 추가.
+        adapter.addItem(
+                "Circle", "Account Circle Black 36dp") ;
+        // 세 번째 아이템 추가.
         }
         private void init() {
             add_btn = findViewById(R.id.add_btn);
-            logout_btn = findViewById(R.id.logout_btn);
 
         }
         private void setup(){
             add_btn.setOnClickListener(goInputPage);
-            logout_btn.setOnClickListener(goSignupPage);
 
         }
-        View.OnClickListener goSignupPage = new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startSignupActivity();
-            }
-        };
 
+        private void list(){
+
+        }
         View.OnClickListener goInputPage = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,10 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
         private void startInputActivity(){
             Intent intent = new Intent(this, InputActivity.class);
-            startActivity(intent);
-        }
-        private void startMypageActivity(){
-            Intent intent = new Intent(this, MypageActivity.class);
             startActivity(intent);
         }
 
