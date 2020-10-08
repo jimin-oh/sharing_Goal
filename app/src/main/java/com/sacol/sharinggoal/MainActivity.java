@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, InputActivity.class);
             startActivity(intent);
         }
-
-
         private void showToast(String str){
             Toast.makeText(getApplicationContext(),str, Toast.LENGTH_LONG).show();
         }
