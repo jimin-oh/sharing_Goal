@@ -2,11 +2,13 @@ package com.sacol.sharinggoal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +24,6 @@ public class MainActivity extends AppCompatActivity {
         private TextView t1 ;
         private FloatingActionButton add_btn;
         private Button logout_btn;
-        private Button btn_mypage;
-        private FirebaseDatabase mDatabase;
-        private DatabaseReference mReference;
-        private String uid = FirebaseAuth.getInstance().getUid();
-        private String name="jiji";
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -35,29 +32,19 @@ public class MainActivity extends AppCompatActivity {
             if (FirebaseAuth.getInstance().getCurrentUser() == null) {
                 startSignupActivity();
             }
-
             init();
             setup();
         }
         private void init() {
             add_btn = findViewById(R.id.add_btn);
-            t1 = findViewById(R.id.t1);
             logout_btn = findViewById(R.id.logout_btn);
-            btn_mypage = findViewById(R.id.btn_mypage);
 
         }
         private void setup(){
             add_btn.setOnClickListener(goInputPage);
             logout_btn.setOnClickListener(goSignupPage);
-            btn_mypage.setOnClickListener(goMypage);
 
         }
-        View.OnClickListener goMypage = new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                startMypageActivity();
-            }
-        };
         View.OnClickListener goSignupPage = new View.OnClickListener(){
             @Override
             public void onClick(View view) {
