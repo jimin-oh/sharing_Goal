@@ -21,65 +21,56 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-        private FloatingActionButton add_btn;
+    private FloatingActionButton add_btn;
+    private ListView listview;
+    private ListViewAdapter adapter;
+
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startSignupActivity();
-            }
-            init();
-            setup();
-        ListView listview ;
-        ListViewAdapter adapter;
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startSignupActivity();
+        }
+        init();
+        setup();
+    }
 
-        // Adapter 생성
-        adapter = new ListViewAdapter() ;
-
-        // 리스트뷰 참조 및 Adapter달기
-        listview = (ListView) findViewById(R.id.listview);
+    private void init() {
+        add_btn = findViewById(R.id.add_btn);
+        adapter = new ListViewAdapter();
+        listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
+    }
 
-        // 첫 번째 아이템 추가.
-        adapter.addItem(
-                "Box", "Account Box Black 36dp") ;
-        // 두 번째 아이템 추가.
-        adapter.addItem(
-                "Circle", "Account Circle Black 36dp") ;
-        // 세 번째 아이템 추가.
-        }
-        private void init() {
-            add_btn = findViewById(R.id.add_btn);
+    private void setup() {
+        add_btn.setOnClickListener(goInputPage);
 
-        }
-        private void setup(){
-            add_btn.setOnClickListener(goInputPage);
+    }
 
-        }
+    private void list() {
+    }
 
-        private void list(){
+    View.OnClickListener goInputPage = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startInputActivity();
+        }
+    };
 
-        }
-        View.OnClickListener goInputPage = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startInputActivity();
-            }
-        };
+    private void startSignupActivity() {
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
+    }
 
-        private void startSignupActivity(){
-            Intent intent = new Intent(this, SignupActivity.class);
-            startActivity(intent);
-        }
+    private void startInputActivity() {
+        Intent intent = new Intent(this, InputActivity.class);
+        startActivity(intent);
+    }
 
-        private void startInputActivity(){
-            Intent intent = new Intent(this, InputActivity.class);
-            startActivity(intent);
-        }
-        private void showToast(String str){
-            Toast.makeText(getApplicationContext(),str, Toast.LENGTH_LONG).show();
-        }
+    private void showToast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
+    }
 
 }
