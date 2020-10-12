@@ -73,5 +73,12 @@ public class ListViewAdapter extends BaseAdapter {
 
         listViewItemList.add(item);
     }
+    public void addItem(String goal) {
+        ListViewItem item = new ListViewItem();
+
+        item.setGoal(goal);
+
+        listViewItemList.add(item);
+    }
 }
 

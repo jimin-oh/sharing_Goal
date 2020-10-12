@@ -72,13 +72,13 @@
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="110dp"
         android:background="@drawable/bottom_rect"
         android:text="LOGIN"
         android:textColor="@color/white"
-        android:textSize="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="110dp"
-        android:layout_marginRight="110dp"/>
+        android:textSize="20dp" />
 
     <View
         android:layout_width="match_parent"

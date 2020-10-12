@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton add_btn;
     private ListView listview;
     private ListViewAdapter adapter;
+    private DatabaseReference databaseRefernece;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +43,27 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter();
         listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
+        databaseRefernece = FirebaseDatabase.getInstance().getReference().child("goalList");
+        String uid = FirebaseAuth.getInstance().getUid();
+        adapter.addItem("hi","i");
+        FirebaseDatabase.getInstance().getReference().child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot goalDate : snapshot.getChildren()){
+                    showToast(goalDate.child("goal").getValue().toString());
+                    adapter.addItem(goalDate.child("goal").getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void setup() {
         add_btn.setOnClickListener(goInputPage);
-
-    }
-
-    private void list() {
     }
 
     View.OnClickListener goInputPage = new View.OnClickListener() {
