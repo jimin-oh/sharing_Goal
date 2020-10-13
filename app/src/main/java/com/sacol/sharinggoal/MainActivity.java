@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView listview;
     private ListViewAdapter adapter;
     private DatabaseReference databaseRefernece;
-    private ArrayList title_array;
-    String goal;
-    String date;
+    private String goal;
+    private String date;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         }
         init();
         setup();
+        initDatabase();
     }
 
     private void init() {
@@ -50,11 +51,17 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter();
         listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
-        String uid = FirebaseAuth.getInstance().getUid();
+        uid = FirebaseAuth.getInstance().getUid();
         databaseRefernece = FirebaseDatabase.getInstance().getReference().child("goalList").child(uid);
+
+
+    }
+
+    private void initDatabase() {
         databaseRefernece.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
                     if(String.valueOf(goalDate.getChildrenCount()).equals("2")) {
@@ -65,26 +72,6 @@ public class MainActivity extends AppCompatActivity {
                         adapter.addItem(goal);
                     }
 
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-    }
-
-    private void initDatabase() {
-        databaseRefernece.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot goalDate : snapshot.getChildren()) {
-                    showToast(goalDate.child("goal").getValue().toString());
-                    goal = goalDate.child("goal").getValue().toString();
-                    date = goalDate.child("date").getValue().toString();
-                    adapter.addItem(date, goal);
                 }
                 adapter.notifyDataSetChanged();
             }
