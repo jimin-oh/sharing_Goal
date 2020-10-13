@@ -20,12 +20,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton add_btn;
     private ListView listview;
     private ListViewAdapter adapter;
     private DatabaseReference databaseRefernece;
-
+    private ArrayList title_array ;
+    String goal;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,26 +47,31 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter();
         listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
+
         databaseRefernece = FirebaseDatabase.getInstance().getReference().child("goalList");
         String uid = FirebaseAuth.getInstance().getUid();
         adapter.addItem("hi","i");
+
         FirebaseDatabase.getInstance().getReference().child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot goalDate : snapshot.getChildren()){
                     showToast(goalDate.child("goal").getValue().toString());
-                    adapter.addItem(goalDate.child("goal").getValue().toString());
+                    goal = goalDate.child("goal").getValue().toString();
+                    date = goalDate.child("date").getValue().toString();
+                    showToast(date);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+
+
     }
 
     private void setup() {
+
         add_btn.setOnClickListener(goInputPage);
     }
 

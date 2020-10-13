@@ -6,7 +6,9 @@ public class ListViewItem {
 
     public ListViewItem() {
     }
-    public ListViewItem(String goal) {
+
+    public ListViewItem(String goal)
+    {
         this.goal = goal;
     }
 
