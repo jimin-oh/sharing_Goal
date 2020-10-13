@@ -1,6 +1,7 @@
 package com.sacol.sharinggoal;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private ListView listview;
     private ListViewAdapter adapter;
     private DatabaseReference databaseRefernece;
-    private ArrayList title_array ;
+    private ArrayList title_array;
     String goal;
     String date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,31 +50,52 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter();
         listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
-
-        databaseRefernece = FirebaseDatabase.getInstance().getReference().child("goalList");
         String uid = FirebaseAuth.getInstance().getUid();
-        adapter.addItem("hi","i");
-
-        FirebaseDatabase.getInstance().getReference().child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
+        databaseRefernece = FirebaseDatabase.getInstance().getReference().child("goalList").child(uid);
+        databaseRefernece.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot goalDate : snapshot.getChildren()){
-                    showToast(goalDate.child("goal").getValue().toString());
+                for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
-                    date = goalDate.child("date").getValue().toString();
-                    showToast(date);
+                    if(String.valueOf(goalDate.getChildrenCount()).equals("2")) {
+                        date = goalDate.child("date").getValue().toString();
+                        adapter.addItem(goal, date);
+                    }else{
+
+                        adapter.addItem(goal);
+                    }
+
                 }
+                adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 
+    }
 
+    private void initDatabase() {
+        databaseRefernece.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot goalDate : snapshot.getChildren()) {
+                    showToast(goalDate.child("goal").getValue().toString());
+                    goal = goalDate.child("goal").getValue().toString();
+                    date = goalDate.child("date").getValue().toString();
+                    adapter.addItem(date, goal);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     private void setup() {
-
         add_btn.setOnClickListener(goInputPage);
     }
 
