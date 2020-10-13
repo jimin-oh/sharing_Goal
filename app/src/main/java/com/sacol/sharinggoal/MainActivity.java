@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private String goal;
     private String date;
     private String uid;
+    private TextView goalCount;
+    private TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +53,27 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter();
         listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
+        goalCount = findViewById(R.id.goalCount);
+        userName = findViewById(R.id.user_name);
+
         uid = FirebaseAuth.getInstance().getUid();
-        databaseRefernece = FirebaseDatabase.getInstance().getReference().child("goalList").child(uid);
+        databaseRefernece = FirebaseDatabase.getInstance().getReference();
 
 
     }
 
     private void initDatabase() {
-        databaseRefernece.addValueEventListener(new ValueEventListener() {
+        databaseRefernece.child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                goalCount.setText(String.valueOf(snapshot.getChildrenCount()) + "개의 목표 진행중입니다.");
 
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
-                    if(String.valueOf(goalDate.getChildrenCount()).equals("2")) {
+                    if (String.valueOf(goalDate.getChildrenCount()).equals("2")) {
                         date = goalDate.child("date").getValue().toString();
                         adapter.addItem(goal, date);
-                    }else{
+                    } else {
 
                         adapter.addItem(goal);
                     }
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
     }
 
     private void setup() {

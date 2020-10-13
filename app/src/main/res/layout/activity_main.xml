@@ -26,10 +26,10 @@
             android:id="@+id/goalCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="50dp"
             android:gravity="end"
             android:text="TextView"
-            android:textSize="36sp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
