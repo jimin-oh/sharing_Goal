@@ -15,6 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="~ ing"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
             android:textAlignment="textEnd"
             android:textColor="#666666"
             android:textSize="16dp" />
@@ -26,6 +28,7 @@
             android:layout_weight="2"
             android:gravity="center_vertical"
             android:text="New Text"
+            android:layout_marginLeft="30dp"
             android:textColor="#000000"
             android:textSize="24dp" />
     </LinearLayout>

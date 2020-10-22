@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item
-    android:id="@+id/searchItem"
-    android:icon="@android:drawable/ic_menu_search"
-    android:title="Search" />
+    android:id="@+id/calendar"
+    android:icon="@android:drawable/ic_menu_my_calendar"
+    android:title="calendar" />
 <item
-    android:id="@+id/cameraItem"
-    android:icon="@android:drawable/ic_menu_camera"
-    android:title="Camera" />
+    android:id="@+id/home"
+    android:icon="@android:drawable/ic_delete"
+    android:title="home" />
 <item
-    android:id="@+id/callItem"
-    android:icon="@android:drawable/ic_menu_call"
-    android:title="Call" />
+    android:id="@+id/mypage"
+    android:icon="@android:drawable/ic_delete"
+    android:title="my" />
 </menu>
