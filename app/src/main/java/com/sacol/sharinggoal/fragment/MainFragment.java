@@ -49,7 +49,6 @@ public class MainFragment extends Fragment {
     private String date;
     private String uid;
     private TextView goalCount;
-    private TextView userName;
 
     /**
      * Use this factory method to create a new instance of
@@ -89,9 +88,6 @@ public class MainFragment extends Fragment {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startSignupActivity();
         }
-//        init();
-//        setup();
-//        initDatabase();
     }
 
     private void init() {
@@ -100,8 +96,6 @@ public class MainFragment extends Fragment {
         listview =  getView().findViewById(R.id.listview);
         listview.setAdapter(adapter);
         goalCount =  getView().findViewById(R.id.goalCount);
-        userName =  getView().findViewById(R.id.user_name);
-
         uid = FirebaseAuth.getInstance().getUid();
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
 
