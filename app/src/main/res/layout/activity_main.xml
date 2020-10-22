@@ -19,4 +19,5 @@ tools:context=".MainActivity">
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottomnavigationview" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
