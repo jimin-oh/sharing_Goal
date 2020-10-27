@@ -47,6 +47,8 @@ public class MainFragment extends Fragment {
     private DatabaseReference databaseRefernece;
     private String goal;
     private String date;
+
+
     private String uid;
     private TextView goalCount;
 
@@ -112,9 +114,11 @@ public class MainFragment extends Fragment {
                     if (String.valueOf(goalDate.getChildrenCount()).equals("2")) {
                         date = goalDate.child("date").getValue().toString();
                         adapter.addItem(goal, date);
+
                     } else {
 
                         adapter.addItem(goal);
+
                     }
 
                 }

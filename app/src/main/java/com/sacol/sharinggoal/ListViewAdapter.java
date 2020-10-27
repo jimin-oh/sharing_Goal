@@ -75,6 +75,7 @@ public class ListViewAdapter extends BaseAdapter {
         item.setGoal(goal);
 
         listViewItemList.add(item);
+
     }
 
     public void addItem(String goal) {
@@ -84,5 +85,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         listViewItemList.add(item);
     }
+
+
 }
 
