@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
@@ -68,20 +70,22 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String goal, String date) {
+    public void addItem(String goal, String date, String ref) {
         ListViewItem item = new ListViewItem();
 
         item.setDate(date);
         item.setGoal(goal);
+        item.setRef(ref);
 
         listViewItemList.add(item);
 
     }
 
-    public void addItem(String goal) {
+    public void addItem(String goal,String ref) {
         ListViewItem item = new ListViewItem();
 
         item.setGoal(goal);
+        item.setRef(ref);
 
         listViewItemList.add(item);
     }

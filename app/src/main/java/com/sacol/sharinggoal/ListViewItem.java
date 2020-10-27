@@ -1,8 +1,12 @@
 package com.sacol.sharinggoal;
 
+import com.google.firebase.database.DatabaseReference;
+
 public class ListViewItem {
     private String date;
     private String goal;
+    private String ref;
+
 
     public ListViewItem() {
     }
@@ -25,6 +29,7 @@ public class ListViewItem {
         this.goal = goal;
     }
 
+    public  void setRef(String ref){ this.ref = ref;}
 
     public String getDate() {
         return this.date;
@@ -33,4 +38,6 @@ public class ListViewItem {
     public String getGoal() {
         return this.goal;
     }
+
+    public  String getRef(){ return this.ref;}
 }

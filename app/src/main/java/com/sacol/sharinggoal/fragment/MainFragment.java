@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -45,6 +46,7 @@ public class MainFragment extends Fragment {
     private ListView listview;
     private ListViewAdapter adapter;
     private DatabaseReference databaseRefernece;
+    private String data;
     private String goal;
     private String date;
 
@@ -100,8 +102,6 @@ public class MainFragment extends Fragment {
         goalCount =  getView().findViewById(R.id.goalCount);
         uid = FirebaseAuth.getInstance().getUid();
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
-
-
     }
     private void initDatabase() {
         databaseRefernece.child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
@@ -111,13 +111,15 @@ public class MainFragment extends Fragment {
 
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
+//                    showToast(goalDate.getRef().toString());
+                    data =  goalDate.getRef().toString();
                     if (String.valueOf(goalDate.getChildrenCount()).equals("2")) {
                         date = goalDate.child("date").getValue().toString();
-                        adapter.addItem(goal, date);
+                        adapter.addItem(goal, date, data);
 
                     } else {
 
-                        adapter.addItem(goal);
+                        adapter.addItem(goal,data);
 
                     }
 
@@ -173,4 +175,8 @@ public class MainFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
+    private void showToast(String str){
+        Toast.makeText(getActivity(),str, Toast.LENGTH_LONG).show();
+    }
 }
+
