@@ -22,7 +22,7 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".DetailActivity"/>
         <activity android:name=".SettingActivity"/>
-
+        <activity android:name=".ProfileActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 
