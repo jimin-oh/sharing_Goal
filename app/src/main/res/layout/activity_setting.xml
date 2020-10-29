@@ -36,4 +36,10 @@
         android:layout_height="100dp"
         android:text="프로필 편집" />
 
+    <Button
+        android:id="@+id/logoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="로그아웃" />
+
 </LinearLayout>

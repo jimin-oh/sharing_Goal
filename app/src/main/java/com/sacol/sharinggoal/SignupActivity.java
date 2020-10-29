@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
     private Button signup_btn;
@@ -66,6 +67,7 @@ public class SignupActivity extends AppCompatActivity {
         signup_login.setOnClickListener(goRealLoginPage);
 
     }
+
     View.OnClickListener goLoginPage = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -74,25 +76,28 @@ public class SignupActivity extends AppCompatActivity {
             final String password = ((TextInputEditText) findViewById(R.id.signUp_pwd)).getText().toString();
             final String passwordConfirm = ((TextInputEditText) findViewById(R.id.signUp_pwdConfirm)).getText().toString();
 
+            if (password.equals(passwordConfirm)) {
+                mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
 
-            mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (password.equals(passwordConfirm)) {
                                 if (task.isSuccessful()) {
-                                    mDatabase.child("users").child(mAuth.getUid().toString()).setValue(name);
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("userName", name);
+
+                                    mDatabase.child("users").child(mAuth.getUid().toString()).setValue(user);
                                     startLoginActivity();
                                 } else {
                                     showToast("회원가입에 실패하셨습니다.");
                                 }
-                            } else {
-                                showToast("비밀번호를 확인해주세요.");
                             }
-                        }
 
-                    });
 
+                        });
+            } else {
+                showToast("비밀번호를 확인해주세요.");
+            }
         }
     };
 
@@ -103,11 +108,11 @@ public class SignupActivity extends AppCompatActivity {
         }
     };
 
-    private void showToast(String str){
-        Toast.makeText(getApplicationContext(),str, Toast.LENGTH_LONG).show();
+    private void showToast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
 
-    private void startLoginActivity(){
+    private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
