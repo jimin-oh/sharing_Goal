@@ -18,7 +18,7 @@ import com.sacol.sharinggoal.SettingActivity;
  * Use the {@link MypageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public  class MypageFragment extends Fragment {
+public class MypageFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,6 +80,7 @@ public  class MypageFragment extends Fragment {
     private void init() {
         settingBtn = getView().findViewById(R.id.settingBtn);
     }
+
     private void setup() {
         settingBtn.setOnClickListener(goSettingPage);
     }
@@ -95,7 +96,6 @@ public  class MypageFragment extends Fragment {
         Intent intent = new Intent(getContext(), SettingActivity.class);
         startActivity(intent);
     }
-
 
 
 }

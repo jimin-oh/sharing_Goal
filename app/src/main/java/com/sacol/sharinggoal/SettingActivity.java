@@ -10,8 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class SettingActivity  extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
     private Button logoutBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,7 @@ public class SettingActivity  extends AppCompatActivity {
         init();
         setUp();
     }
+
     private void init() {
         logoutBtn = findViewById(R.id.logoutBtn);
 
@@ -38,7 +40,8 @@ public class SettingActivity  extends AppCompatActivity {
             startMainActivity();
         }
     };
-    private void startMainActivity(){
+
+    private void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

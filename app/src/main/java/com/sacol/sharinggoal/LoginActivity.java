@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = ((TextInputEditText) findViewById(R.id.login_password)).getText().toString();
 
 
-            if(email.length() >0 && password.length()>0){
+            if (email.length() > 0 && password.length() > 0) {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -64,16 +64,16 @@ public class LoginActivity extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     startMainActivity();
                                 } else {
-                                    if(task.getException() != null){
+                                    if (task.getException() != null) {
                                         showToast(task.getException().toString());
 
-                                    }else{
+                                    } else {
                                         showToast("로그인에 실패하셨습니다.");
                                     }
                                 }
                             }
                         });
-            }else{
+            } else {
                 showToast("모두 입력해주세요");
             }
 //
@@ -89,12 +89,12 @@ public class LoginActivity extends AppCompatActivity {
     };
 
 
-    private void startMainActivity(){
+    private void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    private void showToast(String str){
-        Toast.makeText(getApplicationContext(),str, Toast.LENGTH_LONG).show();
+    private void showToast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
 }

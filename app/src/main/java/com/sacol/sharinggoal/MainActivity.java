@@ -27,13 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private MypageFragment mypageFragment = new MypageFragment();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(FirebaseAuth.getInstance().getCurrentUser()== null){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startSignupActivity();
         }
 
@@ -53,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
-                    case R.id.home:transaction.replace(R.id.main_layout, mainFragment).commitNowAllowingStateLoss();
+                    case R.id.home:
+                        transaction.replace(R.id.main_layout, mainFragment).commitNowAllowingStateLoss();
                         return false;
                     case R.id.calendar:
                         transaction.replace(R.id.main_layout, calendarFragment).commitNowAllowingStateLoss();
@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.mypage:
                         transaction.replace(R.id.main_layout, mypageFragment).commitNowAllowingStateLoss();
                         return false;
-                }return false;
+                }
+                return false;
             }
         });
 
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void startSignupActivity(){
+    private void startSignupActivity() {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }

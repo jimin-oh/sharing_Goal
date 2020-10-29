@@ -11,8 +11,7 @@ public class ListViewItem {
     public ListViewItem() {
     }
 
-    public ListViewItem(String goal)
-    {
+    public ListViewItem(String goal) {
         this.goal = goal;
     }
 
@@ -29,7 +28,9 @@ public class ListViewItem {
         this.goal = goal;
     }
 
-    public  void setRef(String ref){ this.ref = ref;}
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
 
     public String getDate() {
         return this.date;
@@ -39,5 +40,7 @@ public class ListViewItem {
         return this.goal;
     }
 
-    public  String getRef(){ return this.ref;}
+    public String getRef() {
+        return this.ref;
+    }
 }

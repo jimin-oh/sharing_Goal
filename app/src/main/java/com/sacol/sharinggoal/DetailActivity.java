@@ -24,9 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private TextView current_goal ;
+    private TextView current_goal;
     private ImageView back_btn;
-    private  DatabaseReference ref;
+    private DatabaseReference ref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void init() {
-        Intent intent  = getIntent();
+        Intent intent = getIntent();
         String goal = intent.getExtras().getString("goal");
         ref = (DatabaseReference) intent.getExtras().get("ref");
         showToast(intent.getExtras().getString("ref"));
@@ -61,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
 //        });
     }
 
-    private void database(){
+    private void database() {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -74,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
     private void setUp() {
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +84,9 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-    private void showToast(String str){
-        Toast.makeText(getApplicationContext(),str, Toast.LENGTH_LONG).show();
+
+    private void showToast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
 
 }

@@ -1,7 +1,9 @@
 package com.sacol.sharinggoal.fragment;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,6 @@ import com.sacol.sharinggoal.SignupActivity;
  * A simple {@link Fragment} subclass.
  * Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class MainFragment extends Fragment {
 
@@ -97,9 +98,9 @@ public class MainFragment extends Fragment {
     private void init() {
         add_btn = getView().findViewById(R.id.add_btn);
         adapter = new ListViewAdapter();
-        listview =  getView().findViewById(R.id.listview);
+        listview = getView().findViewById(R.id.listview);
         listview.setAdapter(adapter);
-        goalCount =  getView().findViewById(R.id.goalCount);
+        goalCount = getView().findViewById(R.id.goalCount);
         uid = FirebaseAuth.getInstance().getUid();
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
     }
@@ -113,14 +114,14 @@ public class MainFragment extends Fragment {
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
 //                    showToast(goalDate.getRef().toString());
-                    data =  goalDate.getRef().toString();
+                    data = goalDate.getRef().toString();
                     if (String.valueOf(goalDate.getChildrenCount()).equals("2")) {
                         date = goalDate.child("date").getValue().toString();
                         adapter.addItem(goal, date, data);
 
                     } else {
 
-                        adapter.addItem(goal,data);
+                        adapter.addItem(goal, data);
 
                     }
 
@@ -142,7 +143,7 @@ public class MainFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra("goal",adapter.getItem(position).toString());
+                intent.putExtra("goal", adapter.getItem(position).toString());
 
                 startActivity(intent);
             }
@@ -155,7 +156,6 @@ public class MainFragment extends Fragment {
             startInputActivity();
         }
     };
-
 
 
     private void startSignupActivity() {
@@ -176,8 +176,8 @@ public class MainFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
-    private void showToast(String str){
-        Toast.makeText(getActivity(),str, Toast.LENGTH_LONG).show();
+    private void showToast(String str) {
+        Toast.makeText(getActivity(), str, Toast.LENGTH_LONG).show();
     }
 }
 

@@ -50,7 +50,7 @@ public class InputActivity extends AppCompatActivity {
         input_goal = findViewById(R.id.input_goal);
         cancle_btn = findViewById(R.id.cancle_btn);
         input_btn = findViewById(R.id.singup_btn);
-        datapicker= findViewById(R.id.dataPicker);
+        datapicker = findViewById(R.id.dataPicker);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
@@ -66,8 +66,8 @@ public class InputActivity extends AppCompatActivity {
         datapicker.init(datapicker.getYear(), datapicker.getMonth(), datapicker.getDayOfMonth(),
                 new DatePicker.OnDateChangedListener() {
                     @Override
-                    public void onDateChanged(DatePicker view, int year, int monthOfYear,  int dayOfMonth) {
-                        date= String.format("%d/%d/%d", year,monthOfYear + 1, dayOfMonth);
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        date = String.format("%d/%d/%d", year, monthOfYear + 1, dayOfMonth);
 
                     }
                 });
@@ -76,9 +76,9 @@ public class InputActivity extends AppCompatActivity {
     View.OnClickListener plusGoal = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            HashMap<Object,String> goal = new HashMap<>();
-            goal.put("goal", input_goal.getText().toString() );
-            if (date != null){
+            HashMap<Object, String> goal = new HashMap<>();
+            goal.put("goal", input_goal.getText().toString());
+            if (date != null) {
                 goal.put("date", date);
             }
             mDatabase.child("goalList").child(FirebaseAuth.getInstance().getUid().toString()).push().setValue(goal);
@@ -88,7 +88,7 @@ public class InputActivity extends AppCompatActivity {
     View.OnClickListener check = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (((CheckBox)v).isChecked()) {
+            if (((CheckBox) v).isChecked()) {
                 datelayout.setVisibility(View.VISIBLE);
                 view1.setVisibility(View.GONE);
                 view2.setVisibility(View.GONE);
@@ -110,7 +110,7 @@ public class InputActivity extends AppCompatActivity {
         }
     };
 
-    private void startMainActivity(){
+    private void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
