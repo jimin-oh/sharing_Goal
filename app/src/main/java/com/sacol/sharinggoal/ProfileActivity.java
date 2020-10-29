@@ -8,12 +8,17 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private CircleImageView profile_image;
+    StorageReference storageRef;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +30,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void init() {
         profile_image = findViewById(R.id.profile_image);
+        storageRef = FirebaseStorage.getInstance().getReference();
+
 
     }
 

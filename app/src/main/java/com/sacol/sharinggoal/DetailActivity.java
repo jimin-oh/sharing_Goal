@@ -26,7 +26,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView current_goal;
     private ImageView back_btn;
-    private DatabaseReference ref;
+    private String ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,8 @@ public class DetailActivity extends AppCompatActivity {
     private void init() {
         Intent intent = getIntent();
         String goal = intent.getExtras().getString("goal");
-        ref = (DatabaseReference) intent.getExtras().get("ref");
-        showToast(intent.getExtras().getString("ref"));
+//        ref = intent.getExtras().getString("ref");
+        showToast(intent.getExtras().getString("data"));
         current_goal = findViewById(R.id.current_goal);
         current_goal.setText(goal);
         back_btn = findViewById(R.id.back_btn);
@@ -63,17 +63,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void database() {
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                showToast(snapshot.getValue().toString());
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void setUp() {

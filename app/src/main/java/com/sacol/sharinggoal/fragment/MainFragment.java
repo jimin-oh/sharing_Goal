@@ -113,8 +113,7 @@ public class MainFragment extends Fragment {
 
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
-//                    showToast(goalDate.getRef().toString());
-                    data = goalDate.getRef().toString();
+                    data = goalDate.getKey();
                     if (String.valueOf(goalDate.getChildrenCount()).equals("2")) {
                         date = goalDate.child("date").getValue().toString();
                         adapter.addItem(goal, date, data);
@@ -143,8 +142,8 @@ public class MainFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra("goal", adapter.getItem(position).toString());
-
+                intent.putExtra("goal", adapter.getGoal(position).toString());
+                intent.putExtra("data", adapter.getData(position).toString());
                 startActivity(intent);
             }
         });
