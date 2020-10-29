@@ -81,7 +81,7 @@ public class InputActivity extends AppCompatActivity {
             if (date != null) {
                 goal.put("date", date);
             }
-            mDatabase.child("goalList").child(FirebaseAuth.getInstance().getUid().toString()).push().setValue(goal);
+            mDatabase.child("goalList").child(FirebaseAuth.getInstance().getUid()).push().setValue(goal);
             startMainActivity();
         }
     };
