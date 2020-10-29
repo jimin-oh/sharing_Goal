@@ -9,8 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileActivity extends AppCompatActivity {
 
+    private CircleImageView profile_image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,20 +24,20 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void init() {
-
+        profile_image = findViewById(R.id.profile_image);
 
     }
 
 
     private void setUp() {
-
+        profile_image.setOnClickListener(getImage);
     }
 
-    View.OnClickListener logout = new View.OnClickListener() {
+
+    View.OnClickListener getImage = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            FirebaseAuth.getInstance().signOut();
-            startMainActivity();
+
         }
     };
 
