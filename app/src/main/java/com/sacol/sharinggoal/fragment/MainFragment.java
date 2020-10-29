@@ -103,6 +103,7 @@ public class MainFragment extends Fragment {
         uid = FirebaseAuth.getInstance().getUid();
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
     }
+
     private void initDatabase() {
         databaseRefernece.child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
             @Override

@@ -1,13 +1,17 @@
 package com.sacol.sharinggoal.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
+import com.sacol.sharinggoal.InputActivity;
 import com.sacol.sharinggoal.R;
+import com.sacol.sharinggoal.SettingActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +28,7 @@ public  class MypageFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Button settingBtn;
 
     /**
      * Use this factory method to create a new instance of
@@ -63,8 +68,34 @@ public  class MypageFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mypage, container, false);
 
-
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        init();
+        setup();
+    }
+
+    private void init() {
+        settingBtn = getView().findViewById(R.id.settingBtn);
+    }
+    private void setup() {
+        settingBtn.setOnClickListener(goSettingPage);
+    }
+
+    View.OnClickListener goSettingPage = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startSettingActivity();
+        }
+    };
+
+    private void startSettingActivity() {
+        Intent intent = new Intent(getContext(), SettingActivity.class);
+        startActivity(intent);
+    }
+
 
 
 }

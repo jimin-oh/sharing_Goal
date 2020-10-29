@@ -20,8 +20,9 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".InputActivity"/>
         <activity android:name=".LoginActivity"/>
-        <activity android:name=".MypageActivity"/>
         <activity android:name=".DetailActivity"/>
+        <activity android:name=".SettingActivity"/>
+
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

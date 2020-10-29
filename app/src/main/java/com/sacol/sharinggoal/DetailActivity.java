@@ -42,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent  = getIntent();
         String goal = intent.getExtras().getString("goal");
         ref = (DatabaseReference) intent.getExtras().get("ref");
+        showToast(intent.getExtras().getString("ref"));
         current_goal = findViewById(R.id.current_goal);
         current_goal.setText(goal);
         back_btn = findViewById(R.id.back_btn);
