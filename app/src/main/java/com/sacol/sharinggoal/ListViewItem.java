@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseReference;
 public class ListViewItem {
     private String date;
     private String goal;
-    private String data;
+    private String address;
 
 
     public ListViewItem() {
@@ -28,8 +28,8 @@ public class ListViewItem {
         this.goal = goal;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDate() {
@@ -40,7 +40,7 @@ public class ListViewItem {
         return this.goal;
     }
 
-    public String getData() {
-        return this.data;
+    public String getAddress() {
+        return this.address;
     }
 }

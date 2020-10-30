@@ -143,7 +143,7 @@ public class MainFragment extends Fragment {
 
                 Intent intent = new Intent(getContext(), DetailActivity.class);
                 intent.putExtra("goal", adapter.getGoal(position).toString());
-                intent.putExtra("data", adapter.getData(position).toString());
+                intent.putExtra("data", adapter.getAddress(position).toString());
                 startActivity(intent);
             }
         });

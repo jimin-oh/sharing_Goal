@@ -73,26 +73,26 @@ public class ListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position).getGoal();
     }
 
-    public Object getData(int position) {
-        return listViewItemList.get(position).getData();
+    public Object getAddress(int position) {
+        return listViewItemList.get(position).getAddress();
     }
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String goal, String date, String data) {
+    public void addItem(String goal, String date, String address) {
         ListViewItem item = new ListViewItem();
 
         item.setDate(date);
         item.setGoal(goal);
-        item.setData(data);
+        item.setAddress(address);
 
         listViewItemList.add(item);
 
     }
 
-    public void addItem(String goal, String data) {
+    public void addItem(String goal, String address) {
         ListViewItem item = new ListViewItem();
 
         item.setGoal(goal);
-        item.setData(data);
+        item.setAddress(address);
 
         listViewItemList.add(item);
     }
