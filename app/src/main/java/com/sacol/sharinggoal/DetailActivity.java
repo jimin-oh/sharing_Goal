@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -26,6 +28,11 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView current_goal;
     private ImageView back_btn;
+    private CalendarView calendarView;
+    private DatabaseReference databaseRefernece;
+    private String uid;
+    private  String data;
+    private  String goal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +47,39 @@ public class DetailActivity extends AppCompatActivity {
 
     private void init() {
         Intent intent = getIntent();
-        String goal = intent.getExtras().getString("goal");
+        goal = intent.getExtras().getString("goal");
+        data = intent.getExtras().getString("data");
+
         current_goal = findViewById(R.id.current_goal);
         current_goal.setText(goal);
         back_btn = findViewById(R.id.back_btn);
+        calendarView = findViewById(R.id.calendarView);
+        uid = FirebaseAuth.getInstance().getUid();
+        databaseRefernece = FirebaseDatabase.getInstance().getReference();
+//        initDatabase();
     }
 
+    private void initDatabase() {
+        databaseRefernece.child("goalList").child(uid).child(data).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                    if (String.valueOf(snapshot.getChildrenCount()).equals("2")) {
+
+                    } else {
+
+                    }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+    }
 
     private void setUp() {
         back_btn.setOnClickListener(new View.OnClickListener() {

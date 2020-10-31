@@ -54,6 +54,7 @@ public class MainFragment extends Fragment {
 
     private String uid;
     private TextView goalCount;
+    private TextView name;
 
     /**
      * Use this factory method to create a new instance of
@@ -99,6 +100,7 @@ public class MainFragment extends Fragment {
         add_btn = getView().findViewById(R.id.add_btn);
         adapter = new ListViewAdapter();
         listview = getView().findViewById(R.id.listview);
+        name =getView().findViewById(R.id.name);
         listview.setAdapter(adapter);
         goalCount = getView().findViewById(R.id.goalCount);
         uid = FirebaseAuth.getInstance().getUid();
@@ -132,6 +134,19 @@ public class MainFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+        databaseRefernece.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                name.setText(snapshot.child("userName").getValue().toString()+"님은");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
 
     }
 

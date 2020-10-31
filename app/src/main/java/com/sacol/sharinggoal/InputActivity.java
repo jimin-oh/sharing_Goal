@@ -67,7 +67,7 @@ public class InputActivity extends AppCompatActivity {
                 new DatePicker.OnDateChangedListener() {
                     @Override
                     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        date = String.format("%d/%d/%d", year, monthOfYear + 1, dayOfMonth);
+                        date = String.format("%d/%d/%d", monthOfYear+1,   dayOfMonth, year);
 
                     }
                 });
