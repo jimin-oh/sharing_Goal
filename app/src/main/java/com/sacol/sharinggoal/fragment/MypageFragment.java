@@ -1,17 +1,27 @@
 package com.sacol.sharinggoal.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.sacol.sharinggoal.InputActivity;
 import com.sacol.sharinggoal.R;
 import com.sacol.sharinggoal.SettingActivity;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +39,7 @@ public class MypageFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Button settingBtn;
+    private CircleImageView profile_image;
 
     /**
      * Use this factory method to create a new instance of
@@ -51,6 +62,8 @@ public class MypageFragment extends Fragment {
     public MypageFragment() {
         // Required empty public constructor
     }
+
+
 
 
     @Override
@@ -79,10 +92,32 @@ public class MypageFragment extends Fragment {
 
     private void init() {
         settingBtn = getView().findViewById(R.id.settingBtn);
+        profile_image  = getView().findViewById(R.id.profile_image);
     }
 
     private void setup() {
+
         settingBtn.setOnClickListener(goSettingPage);
+
+//        FirebaseStorage storage = FirebaseStorage.getInstance("gs://...storage 주소");
+//        StorageReference storageRef = storage.getReference();
+//        storageRef.child("profileImg/"+ FirebaseAuth.getInstance().getUid()+"profile.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                //이미지 로드 성공시
+//                  profile_image.setImageURI(uri);
+////                Glide.with(getApplicationContext())
+//////                        .load(uri)
+//////                        .into(img_test);
+//
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                //이미지 로드 실패시
+//            }
+//        });
     }
 
     View.OnClickListener goSettingPage = new View.OnClickListener() {
