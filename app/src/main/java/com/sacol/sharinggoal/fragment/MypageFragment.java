@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,6 +18,11 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sacol.sharinggoal.InputActivity;
@@ -40,6 +48,9 @@ public class MypageFragment extends Fragment {
     private String mParam2;
     private Button settingBtn;
     private CircleImageView profile_image;
+    private DatabaseReference databaseRefernece;
+    private String uid;
+    private TextView user_name;
 
     /**
      * Use this factory method to create a new instance of
@@ -93,6 +104,10 @@ public class MypageFragment extends Fragment {
     private void init() {
         settingBtn = getView().findViewById(R.id.settingBtn);
         profile_image  = getView().findViewById(R.id.profile_image);
+        databaseRefernece = FirebaseDatabase.getInstance().getReference();
+        uid = FirebaseAuth.getInstance().getUid();
+        user_name = getView().findViewById(R.id.user_name);
+
     }
 
     private void setup() {
@@ -118,6 +133,20 @@ public class MypageFragment extends Fragment {
 //                //이미지 로드 실패시
 //            }
 //        });
+        databaseRefernece.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user_name.setText(snapshot.child("userName").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void showToast(String str) {
+        Toast.makeText(getActivity(), str, Toast.LENGTH_LONG).show();
     }
 
     View.OnClickListener goSettingPage = new View.OnClickListener() {

@@ -190,8 +190,5 @@ public class MainFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
-    private void showToast(String str) {
-        Toast.makeText(getActivity(), str, Toast.LENGTH_LONG).show();
-    }
 }
 
