@@ -16,7 +16,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class InputActivity extends AppCompatActivity {
@@ -32,6 +34,9 @@ public class InputActivity extends AppCompatActivity {
     private DatePicker datapicker;
     private String date;
     private DatabaseReference mDatabase;
+    private  SimpleDateFormat format1;
+    private  String current_day;
+    private  Date time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,9 @@ public class InputActivity extends AppCompatActivity {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         datapicker.setMinDate(cal.getTimeInMillis());
-
+        format1 = new SimpleDateFormat ( "yyyy/MM/dd");
+        time = new Date();
+        current_day = format1.format(time);
     }
 
 
@@ -67,7 +74,7 @@ public class InputActivity extends AppCompatActivity {
                 new DatePicker.OnDateChangedListener() {
                     @Override
                     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        date = String.format("%d/%d/%d", monthOfYear+1,   dayOfMonth, year);
+                        date = String.format("%d/%d/%d",year, monthOfYear+1,   dayOfMonth);
 
                     }
                 });
@@ -81,6 +88,7 @@ public class InputActivity extends AppCompatActivity {
             if (date != null) {
                 goal.put("date", date);
             }
+            goal.put("current_date",current_day);
             mDatabase.child("goalList").child(FirebaseAuth.getInstance().getUid()).push().setValue(goal);
             startMainActivity();
         }

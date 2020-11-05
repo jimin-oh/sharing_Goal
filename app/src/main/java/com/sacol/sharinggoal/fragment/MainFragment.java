@@ -116,7 +116,7 @@ public class MainFragment extends Fragment {
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
                     data = goalDate.getKey();
-                    if (String.valueOf(goalDate.getChildrenCount()).equals("2")) {
+                    if (String.valueOf(goalDate.getChildrenCount()).equals("3")) {
                         date = goalDate.child("date").getValue().toString();
                         adapter.addItem(goal, date, data);
 
