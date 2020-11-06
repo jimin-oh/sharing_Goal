@@ -23,6 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -31,8 +35,11 @@ public class DetailActivity extends AppCompatActivity {
     private CalendarView calendarView;
     private DatabaseReference databaseRefernece;
     private String uid;
-    private  String data;
-    private  String goal;
+    private String data;
+    private String goal;
+    private String current_date;
+    private SimpleDateFormat transFormat;
+    private Date to;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,7 @@ public class DetailActivity extends AppCompatActivity {
 
         init();
         setUp();
+        initDatabase();
 
     }
 
@@ -49,27 +57,34 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         goal = intent.getExtras().getString("goal");
         data = intent.getExtras().getString("data");
-
         current_goal = findViewById(R.id.current_goal);
         current_goal.setText(goal);
         back_btn = findViewById(R.id.back_btn);
         calendarView = findViewById(R.id.calendarView);
         uid = FirebaseAuth.getInstance().getUid();
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
-//        initDatabase();
+        transFormat = new SimpleDateFormat("yyyy/MM/dd");
+
     }
 
     private void initDatabase() {
+
         databaseRefernece.child("goalList").child(uid).child(data).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                current_date = snapshot.child("current_date").getValue().toString();
+                try {
+                    to = transFormat.parse(current_date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                calendarView.setMinDate(to.getTime());
+                if (String.valueOf(snapshot.getChildrenCount()).equals("2")) {
 
 
-                    if (String.valueOf(snapshot.getChildrenCount()).equals("2")) {
+                } else {
 
-                    } else {
-
-                    }
+                }
 
 
             }
