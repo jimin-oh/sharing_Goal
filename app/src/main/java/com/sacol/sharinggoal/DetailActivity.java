@@ -3,19 +3,15 @@ package com.sacol.sharinggoal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +34,7 @@ public class DetailActivity extends AppCompatActivity {
     private String data;
     private String goal;
     private String current_date;
+    private String end_date;
     private SimpleDateFormat transFormat;
     private Date to;
 
@@ -75,12 +72,20 @@ public class DetailActivity extends AppCompatActivity {
                 current_date = snapshot.child("current_date").getValue().toString();
                 try {
                     to = transFormat.parse(current_date);
+                    calendarView.setMinDate(to.getTime());
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                calendarView.setMinDate(to.getTime());
-                if (String.valueOf(snapshot.getChildrenCount()).equals("2")) {
-
+//               calendarView.setMinDate(to.getTime());
+                if (String.valueOf(snapshot.getChildrenCount()).equals("3")) {
+                    end_date = snapshot.child("date").getValue().toString();
+                    try {
+                        to = transFormat.parse(end_date);
+                        calendarView.setMaxDate(to.getTime());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
                 } else {
 
