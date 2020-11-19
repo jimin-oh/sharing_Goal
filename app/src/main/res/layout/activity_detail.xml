@@ -7,6 +7,11 @@
     android:orientation="vertical"
     >
 
+    <!--    <CalendarView-->
+<!--        android:id="@+id/calendarView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="50dp"
             android:text="나의 목표 :"
             android:textSize="30sp" />
 
@@ -36,15 +40,22 @@
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="25dp"
             android:text="자바 프로젝트 하기"
             android:textSize="36sp" />
 
     </LinearLayout>
 
-    <CalendarView
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:mcv_selectionColor="@color/main"
+        app:mcv_showOtherDates="defaults" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 </LinearLayout>
