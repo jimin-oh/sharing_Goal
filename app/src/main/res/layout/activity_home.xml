@@ -21,8 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
+        android:textColor="@color/black"
         android:text="진행중인 목표"
-        android:textSize="33dp" />
+        android:textSize="30dp" />
 
     <LinearLayout
         android:layout_width="370dp"
@@ -50,6 +51,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/umm"
         android:layout_width="380dp"
         android:layout_gravity="center"
         android:layout_height="80dp"
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:text="친구들 보러가기"
             android:textSize="28sp" />
     </LinearLayout>
