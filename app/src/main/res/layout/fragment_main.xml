@@ -47,7 +47,7 @@
         app:srcCompat="@drawable/ic_baseline_add_24" />
 
      <ListView
-        android:id="@+id/listview"
+        android:id="@+id/goal_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#CDCBC2"

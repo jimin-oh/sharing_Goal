@@ -18,12 +18,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" />
-        <activity android:name=".InputActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".DetailActivity"/>
-        <activity android:name=".SettingActivity"/>
-        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".InputActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".DetailActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".HomeActivity" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

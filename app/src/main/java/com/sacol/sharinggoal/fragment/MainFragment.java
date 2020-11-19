@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -23,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sacol.sharinggoal.DetailActivity;
+import com.sacol.sharinggoal.HomeActivity;
 import com.sacol.sharinggoal.InputActivity;
 import com.sacol.sharinggoal.ListViewAdapter;
 import com.sacol.sharinggoal.R;
@@ -90,7 +90,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Intent intent = new Intent(getContext(), HomeActivity.class);
+        startActivity(intent);
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startSignupActivity();
         }
@@ -99,7 +100,7 @@ public class MainFragment extends Fragment {
     private void init() {
         add_btn = getView().findViewById(R.id.add_btn);
         adapter = new ListViewAdapter();
-        listview = getView().findViewById(R.id.listview);
+        listview = getView().findViewById(R.id.goal_list);
         name =getView().findViewById(R.id.name);
         listview.setAdapter(adapter);
         goalCount = getView().findViewById(R.id.goalCount);
