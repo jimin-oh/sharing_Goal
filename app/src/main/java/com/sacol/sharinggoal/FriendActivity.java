@@ -1,5 +1,6 @@
 package com.sacol.sharinggoal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,6 +50,12 @@ public class FriendActivity extends AppCompatActivity {
     private void setup() {
 //        plus_btn.setOnClickListener();
         back_btn.setOnClickListener(Activityfinish);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                startFriendDetailActivity(position);
+            }
+        });
     }
 
     View.OnClickListener Activityfinish = new View.OnClickListener() {
@@ -109,5 +116,9 @@ public class FriendActivity extends AppCompatActivity {
         });
     }
 
-
+    private void startFriendDetailActivity(int position) {
+        Intent intent = new Intent(this, FriendDetailActivity.class);
+        intent.putExtra("goal", adapter.getFriendUid(position).toString());
+        startActivity(intent);
+    }
 }

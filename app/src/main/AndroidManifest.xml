@@ -25,6 +25,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".FriendActivity"/>
+        <activity android:name=".FriendDetailActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
