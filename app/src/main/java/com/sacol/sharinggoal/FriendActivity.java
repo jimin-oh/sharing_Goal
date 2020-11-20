@@ -26,9 +26,6 @@ public class FriendActivity extends AppCompatActivity {
     final private String uid = FirebaseAuth.getInstance().getUid();
     private DatabaseReference databaseRefernece;
 
-    private String friend_name="";
-    private String friend_goal="";
-    private String friend_uid="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,58 +58,55 @@ public class FriendActivity extends AppCompatActivity {
         }
     };
 
-
-    private void showToast(String str) {
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
-    }
     private void initDatabase() {
         databaseRefernece.child("users").child(uid).child("friend").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 for (DataSnapshot friend : snapshot.getChildren()) {
-                    friend_uid = friend.getValue().toString();
-
-                    databaseRefernece.child("users").child(friend_uid).child("userName").addValueEventListener(new ValueEventListener() {
-
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            friend_name = snapshot.getValue().toString();
-                            showToast(friend_name);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    databaseRefernece.child("goalList").child(friend_uid).addValueEventListener(new ValueEventListener() {
-
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            friend_goal = "진행중인 목표 :  "+String.valueOf(snapshot.getChildrenCount())+"개";
-                            showToast(friend_goal);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                    adapter.addItem(friend_uid,friend_name,friend_goal);
+                    String friend_uid = friend.getValue().toString();
+                    database_friend_name(friend_uid);
                 }
-                adapter.notifyDataSetChanged();
-                showToast(String.valueOf(adapter.getCount()));
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-//
+    }
 
+    private void database_friend_name(final String friend_uid) {
+        databaseRefernece.child("users").child(friend_uid).child("userName").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String friend_name = snapshot.getValue().toString();
+                database_friend_goal(friend_uid, friend_name);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+    }
+
+    private void database_friend_goal(final String friend_uid, final String friend_name) {
+        databaseRefernece.child("goalList").child(friend_uid).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String friend_goal = "진행중인 목표 :  " + String.valueOf(snapshot.getChildrenCount()) + "개";
+
+                adapter.addItem(friend_uid, friend_name, friend_goal);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

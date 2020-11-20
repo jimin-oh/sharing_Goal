@@ -39,7 +39,7 @@
             android:layout_height="313dp"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:divider="#CDCBC2" />
+            android:divider="@color/gray" />
 
         <ImageView
             android:id="@+id/add_btn"
