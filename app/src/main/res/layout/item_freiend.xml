@@ -31,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="~ ing"
             android:layout_marginRight="20dp"
             android:layout_marginTop="3dp"
             android:textAlignment="textEnd"

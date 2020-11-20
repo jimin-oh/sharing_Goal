@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +26,9 @@ public class FriendActivity extends AppCompatActivity {
     final private String uid = FirebaseAuth.getInstance().getUid();
     private DatabaseReference databaseRefernece;
 
-    private String friend_name;
-    private String friend_goal_count;
-    private String friend_uid;
+    private String friend_name="";
+    private String friend_goal="";
+    private String friend_uid="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,9 @@ public class FriendActivity extends AppCompatActivity {
     };
 
 
+    private void showToast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
+    }
     private void initDatabase() {
         databaseRefernece.child("users").child(uid).child("friend").addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,11 +72,13 @@ public class FriendActivity extends AppCompatActivity {
 
                 for (DataSnapshot friend : snapshot.getChildren()) {
                     friend_uid = friend.getValue().toString();
+
                     databaseRefernece.child("users").child(friend_uid).child("userName").addValueEventListener(new ValueEventListener() {
 
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             friend_name = snapshot.getValue().toString();
+                            showToast(friend_name);
                         }
 
                         @Override
@@ -84,7 +90,8 @@ public class FriendActivity extends AppCompatActivity {
 
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            friend_goal_count = "진행중인 목표 :"+String.valueOf(snapshot.getChildrenCount());
+                            friend_goal = "진행중인 목표 :  "+String.valueOf(snapshot.getChildrenCount())+"개";
+                            showToast(friend_goal);
                         }
 
                         @Override
@@ -93,9 +100,11 @@ public class FriendActivity extends AppCompatActivity {
                         }
                     });
 
-                    adapter.addItem(friend_uid,friend_name,friend_goal_count);
+                    adapter.addItem(friend_uid,friend_name,friend_goal);
                 }
                 adapter.notifyDataSetChanged();
+                showToast(String.valueOf(adapter.getCount()));
+
             }
 
             @Override
