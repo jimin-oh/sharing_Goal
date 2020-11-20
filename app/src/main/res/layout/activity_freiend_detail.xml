@@ -26,10 +26,10 @@
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="6dp"
         android:text="이름"
+        android:textColor="@color/black"
         android:textSize="24sp" />
 
     <View
@@ -43,15 +43,15 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="15dp"
         android:textColor="@color/black"
         android:text="진행중인 목표"
-        android:textSize="26dp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="370dp"
-        android:layout_height="260dp"
+        android:layout_height="220dp"
         android:layout_gravity="center"
         android:layout_marginTop="14dp"
         android:background="@drawable/layout_backgroud"
@@ -60,15 +60,16 @@
         <ListView
             android:id="@+id/goal_list"
             android:layout_width="360dp"
-            android:layout_height="313dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:divider="#CDCBC2" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/umm"
+        android:id="@+id/go_friend"
         android:layout_width="380dp"
         android:layout_gravity="center"
         android:layout_height="80dp"
@@ -92,7 +93,7 @@
             android:layout_weight="1"
             android:textColor="@color/black"
             android:text="친구들 보러가기"
-            android:textSize="28sp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
 

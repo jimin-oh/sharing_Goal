@@ -118,7 +118,7 @@ public class FriendActivity extends AppCompatActivity {
 
     private void startFriendDetailActivity(int position) {
         Intent intent = new Intent(this, FriendDetailActivity.class);
-        intent.putExtra("goal", adapter.getFriendUid(position).toString());
+        intent.putExtra("friendUid", adapter.getFriendUid(position).toString());
         startActivity(intent);
     }
 }
