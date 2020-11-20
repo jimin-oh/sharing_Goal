@@ -19,14 +19,14 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="38dp"
         android:layout_marginTop="15dp"
         android:textColor="@color/black"
         android:text="진행중인 목표"
-        android:textSize="24sp" />
+        android:textSize="30sp" />
 
     <LinearLayout
-        android:layout_width="370dp"
+        android:layout_width="350dp"
         android:layout_height="400dp"
         android:layout_gravity="center"
         android:layout_marginTop="14dp"
@@ -52,12 +52,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/umm"
-        android:layout_width="370dp"
+        android:id="@+id/go_friend"
+        android:layout_width="350dp"
         android:layout_height="80dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:background="@drawable/layout_backgroud_item"
+        android:background="@drawable/layout_backgroud_gofriend"
         android:orientation="horizontal">
 
         <ImageView

@@ -2,7 +2,7 @@
 
     <style name="AppTheme.StatusBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!--Status Bar 배경색-->
-        <item name="android:statusBarColor" tools:targetApi="lollipop">#467b47</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/main</item>
         <!--Status bar 글자 색-->
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
@@ -10,9 +10,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#467b47</item>
-        <item name="colorPrimaryDark">#467b47</item>
-        <item name="colorAccent">#000000</item>
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main</item>
+        <item name="colorAccent">@color/black</item>
     </style>
     <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/black</item>

@@ -2,20 +2,20 @@ package com.sacol.sharinggoal;
 
 import com.google.firebase.database.DatabaseReference;
 
-public class ListViewItem {
+public class HomeItem {
     private String date;
     private String goal;
     private String address;
 
 
-    public ListViewItem() {
+    public HomeItem() {
     }
 
-    public ListViewItem(String goal) {
+    public HomeItem(String goal) {
         this.goal = goal;
     }
 
-    public ListViewItem(String date, String goal) {
+    public HomeItem(String date, String goal) {
         this.date = date;
         this.goal = goal;
     }

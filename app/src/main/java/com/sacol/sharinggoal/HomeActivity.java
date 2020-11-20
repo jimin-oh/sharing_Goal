@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -21,9 +22,10 @@ public class HomeActivity extends AppCompatActivity {
 
     private ImageView add_btn;
     private ListView listview;
-    private ListViewAdapter adapter;
+    private HomeAdapter adapter;
     final private String uid = FirebaseAuth.getInstance().getUid();
     private DatabaseReference databaseRefernece;
+    private LinearLayout go_friend;
 
     private String data;
     private String goal;
@@ -46,10 +48,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void init() {
         add_btn = findViewById(R.id.add_btn);
-        adapter = new ListViewAdapter();
+        adapter = new HomeAdapter();
         listview = findViewById(R.id.goal_list);
         listview.setAdapter(adapter);
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
+        go_friend = findViewById(R.id.go_friend);
     }
 
     private void setup() {
@@ -60,6 +63,7 @@ public class HomeActivity extends AppCompatActivity {
                 startDetailActivity(position);
             }
         });
+        go_friend.setOnClickListener(goFriendPage);
     }
 
     private void initDatabase() {
@@ -101,6 +105,14 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
+    View.OnClickListener goFriendPage = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startFriendActivity();
+        }
+    };
+
+
 
     private void startSignupActivity() {
         Intent intent = new Intent(this, SignupActivity.class);
@@ -109,6 +121,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void startInputActivity() {
         Intent intent = new Intent(this, InputActivity.class);
+        startActivity(intent);
+    }
+
+    private void startFriendActivity() {
+        Intent intent = new Intent(this, FriendActivity.class);
         startActivity(intent);
     }
 

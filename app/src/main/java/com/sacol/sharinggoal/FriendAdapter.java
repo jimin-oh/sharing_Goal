@@ -1,24 +1,20 @@
 package com.sacol.sharinggoal;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
-public class ListViewAdapter extends BaseAdapter {
+public class FriendAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+    private ArrayList<HomeItem> listViewItemList = new ArrayList<HomeItem>();
 
     // ListViewAdapter의 생성자
-    public ListViewAdapter() {
+    public FriendAdapter() {
 
     }
 
@@ -42,7 +38,7 @@ public class ListViewAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_goal, parent, false);
+            convertView = inflater.inflate(R.layout.item_freiend, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
@@ -50,13 +46,13 @@ public class ListViewAdapter extends BaseAdapter {
         TextView textGoal =  convertView.findViewById(R.id.goal);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        ListViewItem listViewItem = listViewItemList.get(pos);
+        HomeItem homeItem = listViewItemList.get(pos);
 
         // 아이템 내 각 위젯에 데이터 반영
-        if (listViewItem.getDate() != null) {
-            textDate.setText(listViewItem.getDate());
+        if (homeItem.getDate() != null) {
+            textDate.setText(homeItem.getDate());
         }
-        textGoal.setText(listViewItem.getGoal());
+        textGoal.setText(homeItem.getGoal());
 
 
         return convertView;
@@ -76,20 +72,20 @@ public class ListViewAdapter extends BaseAdapter {
     public Object getAddress(int position) {
         return listViewItemList.get(position).getAddress();
     }
+
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String goal, String date, String address) {
-        ListViewItem item = new ListViewItem();
+    public void addItem(String friend_uid, String friend_name, String friend_goal_count) {
+        HomeItem item = new HomeItem();
 
-        item.setDate(date);
-        item.setGoal(goal);
-        item.setAddress(address);
 
-        listViewItemList.add(item);
 
     }
 
+
+
+
     public void addItem(String goal, String address) {
-        ListViewItem item = new ListViewItem();
+        HomeItem item = new HomeItem();
 
         item.setGoal(goal);
         item.setAddress(address);

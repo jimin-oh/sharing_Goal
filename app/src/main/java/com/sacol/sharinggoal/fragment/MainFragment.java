@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.sacol.sharinggoal.DetailActivity;
 import com.sacol.sharinggoal.HomeActivity;
 import com.sacol.sharinggoal.InputActivity;
-import com.sacol.sharinggoal.ListViewAdapter;
+import com.sacol.sharinggoal.HomeAdapter;
 import com.sacol.sharinggoal.R;
 import com.sacol.sharinggoal.SignupActivity;
 
@@ -45,7 +45,7 @@ public class MainFragment extends Fragment {
 
     private FloatingActionButton add_btn;
     private ListView listview;
-    private ListViewAdapter adapter;
+    private HomeAdapter adapter;
     private DatabaseReference databaseRefernece;
     private String data;
     private String goal;
@@ -99,7 +99,7 @@ public class MainFragment extends Fragment {
 
     private void init() {
         add_btn = getView().findViewById(R.id.add_btn);
-        adapter = new ListViewAdapter();
+        adapter = new HomeAdapter();
         listview = getView().findViewById(R.id.goal_list);
         name =getView().findViewById(R.id.name);
         listview.setAdapter(adapter);
