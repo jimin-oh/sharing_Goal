@@ -73,6 +73,9 @@ public class DetailActivity extends AppCompatActivity {
         transFormat = new SimpleDateFormat("yyyy/MM/dd");
         calendarView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
 //        calendarView.addDecorator(new MySelectorDecorator(this));
+        calendarView.addDecorators(
+                new MySelectorDecorator(this)
+        );
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
@@ -146,7 +149,7 @@ class MySelectorDecorator implements DayViewDecorator {
     private CalendarDay date;
 
     public MySelectorDecorator(Activity context) {
-        drawable = context.getResources().getDrawable(R.drawable.bottom_rect);
+        drawable = context.getResources().getDrawable(R.drawable.calendar_back_item);
         date = CalendarDay.from(calendar);
 
     }

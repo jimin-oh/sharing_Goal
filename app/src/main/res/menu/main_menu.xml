@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="로그아웃"
+        android:id="@+id/logout_menu"/>
+    <item android:title="프로필 편집"
+    android:id="@+id/profile_edit_menu"/>
+</menu>

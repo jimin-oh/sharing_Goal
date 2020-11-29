@@ -1,16 +1,18 @@
 package com.sacol.sharinggoal;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,10 +26,12 @@ public class FriendDetailActivity extends AppCompatActivity {
 
     private ListView listview;
     private HomeAdapter adapter;
+    private String friendUid;
     private String uid;
     private DatabaseReference databaseRefernece;
     private LinearLayout go_friend;
     private TextView user_name;
+    private ImageView del_friend;
 
     private String data;
     private String goal;
@@ -36,7 +40,7 @@ public class FriendDetailActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_freiend_detail);
+        setContentView(R.layout.activity_friend_detail);
 
         init();
         setup();
@@ -51,8 +55,10 @@ public class FriendDetailActivity extends AppCompatActivity {
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
         go_friend = findViewById(R.id.go_friend);
         user_name = findViewById(R.id.user_name);
+        del_friend = findViewById(R.id.del_friend);
         Intent intent = getIntent();
-        uid = intent.getExtras().getString("friendUid");
+        uid = FirebaseAuth.getInstance().getUid();
+        friendUid = intent.getExtras().getString("friendUid");
     }
 
     private void setup() {
@@ -63,10 +69,11 @@ public class FriendDetailActivity extends AppCompatActivity {
             }
         });
         go_friend.setOnClickListener(goFriendPage);
+        del_friend.setOnClickListener(deleteFriend);
     }
 
     private void initDatabase() {
-       databaseRefernece.child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
+       databaseRefernece.child("goalList").child(friendUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -89,7 +96,7 @@ public class FriendDetailActivity extends AppCompatActivity {
             }
         });
 
-        databaseRefernece.child("users").child(uid).child("userName").addValueEventListener(new ValueEventListener() {
+        databaseRefernece.child("users").child(friendUid).child("userName").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user_name.setText(snapshot.getValue().toString());
@@ -99,6 +106,7 @@ public class FriendDetailActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
     }
 
     View.OnClickListener goFriendPage = new View.OnClickListener() {
@@ -107,7 +115,27 @@ public class FriendDetailActivity extends AppCompatActivity {
             startFriendActivity();
         }
     };
+    View.OnClickListener deleteFriend = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
 
+            new AlertDialog.Builder(FriendDetailActivity.this)
+                    .setMessage("친구를 삭제하겠습니까 ?")
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            databaseRefernece.child("users").child(uid).child("friend").removeValue();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getApplicationContext(), "삭제하지 않습니다", Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+        }
+    };
 
 
     private void startSignupActivity() {

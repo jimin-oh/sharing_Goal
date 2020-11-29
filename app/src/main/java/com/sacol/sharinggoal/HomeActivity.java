@@ -1,14 +1,22 @@
 package com.sacol.sharinggoal;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private ImageView menu_bar;
     private ImageView add_btn;
     private ListView listview;
     private HomeAdapter adapter;
@@ -53,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         listview.setAdapter(adapter);
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
         go_friend = findViewById(R.id.go_friend);
+        menu_bar = findViewById(R.id.menu_bar);
     }
 
     private void setup() {
@@ -64,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         go_friend.setOnClickListener(goFriendPage);
+        menu_bar.setOnClickListener(homeMenu);
     }
 
     private void initDatabase() {
@@ -97,7 +108,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
     View.OnClickListener goInputPage = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -112,10 +122,56 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
+    View.OnClickListener homeMenu = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final PopupMenu popup = new PopupMenu(getApplicationContext(), view);
+            getMenuInflater().inflate(R.menu.main_menu, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.logout_menu:
 
+                            new AlertDialog.Builder(HomeActivity.this)
+                                    .setTitle(Html.fromHtml("<font color='#000000'>로그아웃 하시겠습니까?</font>"))
+                                    .setPositiveButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(getApplicationContext(), "로그아웃하지 않습니다", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    })
+                                    .setNegativeButton(Html.fromHtml("<font color='#000000'>예</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            FirebaseAuth.getInstance().signOut();
+                                            startLoginActivity();
+                                        }
+                                    }).show();
+                            break;
+                        case R.id.profile_edit_menu:
+                            startprofileActivity();
+                            break;
+
+                        default:
+                            break;
+                    }
+                    return false;
+                }
+
+            });
+            popup.show();
+        }
+    };
 
     private void startSignupActivity() {
         Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
+    }
+
+    private void startLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -123,6 +179,12 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, InputActivity.class);
         startActivity(intent);
     }
+
+    private void startprofileActivity() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
 
     private void startFriendActivity() {
         Intent intent = new Intent(this, FriendActivity.class);
