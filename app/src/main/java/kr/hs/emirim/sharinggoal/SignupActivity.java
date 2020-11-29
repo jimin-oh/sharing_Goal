@@ -1,4 +1,4 @@
-package com.sacol.sharinggoal;
+package kr.hs.emirim.sharinggoal;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,7 +85,7 @@ public class SignupActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("userName", name);
-
+                                    user.put("email", email);
                                     mDatabase.child("users").child(mAuth.getUid().toString()).setValue(user);
                                     startLoginActivity();
                                 } else {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.sacol.sharinggoal">
+    package="kr.hs.emirim.sharinggoal">
 
     <application
         android:allowBackup="true"
@@ -10,22 +10,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity android:name="HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".InputActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".FriendActivity"/>
-        <activity android:name=".FriendDetailActivity"/>
+        <activity android:name="SignupActivity" />
+        <activity android:name="InputActivity" />
+        <activity android:name="LoginActivity" />
+        <activity android:name="DetailActivity" />
+        <activity android:name="SettingActivity" />
+        <activity android:name="ProfileActivity" />
+        <activity android:name="MainActivity" />
+        <activity android:name="FriendActivity"/>
+        <activity android:name="FriendDetailActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -1,4 +1,4 @@
-package com.sacol.sharinggoal;
+package kr.hs.emirim.sharinggoal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -90,18 +90,19 @@ public class InputActivity extends AppCompatActivity {
             }
             goal.put("current_date",current_day);
             mDatabase.child("goalList").child(FirebaseAuth.getInstance().getUid()).push().setValue(goal);
-            startMainActivity();
+            finish();
         }
     };
     View.OnClickListener check = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (((CheckBox) v).isChecked()) {
+            if (checkDate.isChecked()) {
                 datelayout.setVisibility(View.VISIBLE);
                 view1.setVisibility(View.GONE);
                 view2.setVisibility(View.GONE);
                 view3.setVisibility(View.GONE);
-
+                SimpleDateFormat formatDate = new SimpleDateFormat ( "yyyy/MM/dd");
+                date= formatDate.format(new Date());
             } else {
                 datelayout.setVisibility(View.GONE);
                 view1.setVisibility(View.VISIBLE);

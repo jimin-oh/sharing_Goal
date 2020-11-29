@@ -1,4 +1,4 @@
-package com.sacol.sharinggoal;
+package kr.hs.emirim.sharinggoal;
 
 import org.junit.Test;
 

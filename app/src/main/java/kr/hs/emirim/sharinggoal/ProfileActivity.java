@@ -1,12 +1,9 @@
-package com.sacol.sharinggoal;
+package kr.hs.emirim.sharinggoal;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -15,10 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.content.CursorLoader;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,10 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -82,6 +73,15 @@ public class ProfileActivity extends AppCompatActivity {
     private void setUp() {
         profile_image.setOnClickListener(getImage);
         back_btn.setOnClickListener(finishPage);
+        profile_name_edit.setOnClickListener(changeName);
+        profile_image_edit.setOnClickListener(changeImage);
+        profile_Introduce_edit.setOnClickListener(changeIntroduce);
+        profile_serch_edit.setOnClickListener(changeSearch);
+        databaseInit();
+
+    }
+
+    private void databaseInit(){
         databaseReference.child("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -115,13 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-        profile_name_edit.setOnClickListener(changeName);
-        profile_image_edit.setOnClickListener(changeImage);
-        profile_Introduce_edit.setOnClickListener(changeIntroduce);
-        profile_serch_edit.setOnClickListener(changeSearch);
     }
-
-
     View.OnClickListener getImage = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -158,7 +152,6 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             databaseReference.child("users").child(uid).child("userSearch").setValue(radiotrue.isChecked());
-
             showToast("변경되었습니다. ");
 
         }

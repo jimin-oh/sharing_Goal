@@ -34,6 +34,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213720246550:android:fc14f2ece53d4d0c450837",
+        "android_client_info": {
+          "package_name": "kr.hs.emirim.sharinggoal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213720246550-rqtel13vcc5ffs58t8g77cfpb1cad8qu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJRBB415N_5vLkhmj6sYMCDfpxmp2ESXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213720246550-rqtel13vcc5ffs58t8g77cfpb1cad8qu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

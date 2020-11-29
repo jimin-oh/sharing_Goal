@@ -1,14 +1,16 @@
-package com.sacol.sharinggoal;
+package kr.hs.emirim.sharinggoal;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,16 +24,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class FriendDetailActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
+    private ImageView menu_bar;
+    private ImageView add_btn;
     private ListView listview;
     private HomeAdapter adapter;
-    private String friendUid;
-    private String uid;
+    final private String uid = FirebaseAuth.getInstance().getUid();
     private DatabaseReference databaseRefernece;
     private LinearLayout go_friend;
-    private TextView user_name;
-    private ImageView del_friend;
 
     private String data;
     private String goal;
@@ -40,7 +41,11 @@ public class FriendDetailActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_detail);
+        setContentView(R.layout.activity_home);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startSignupActivity();
+        }
 
         init();
         setup();
@@ -49,19 +54,17 @@ public class FriendDetailActivity extends AppCompatActivity {
 
 
     private void init() {
+        add_btn = findViewById(R.id.add_btn);
         adapter = new HomeAdapter();
         listview = findViewById(R.id.goal_list);
         listview.setAdapter(adapter);
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
         go_friend = findViewById(R.id.go_friend);
-        user_name = findViewById(R.id.user_name);
-        del_friend = findViewById(R.id.del_friend);
-        Intent intent = getIntent();
-        uid = FirebaseAuth.getInstance().getUid();
-        friendUid = intent.getExtras().getString("friendUid");
+        menu_bar = findViewById(R.id.menu_bar);
     }
 
     private void setup() {
+        add_btn.setOnClickListener(goInputPage);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -69,11 +72,11 @@ public class FriendDetailActivity extends AppCompatActivity {
             }
         });
         go_friend.setOnClickListener(goFriendPage);
-        del_friend.setOnClickListener(deleteFriend);
+        menu_bar.setOnClickListener(homeMenu);
     }
 
     private void initDatabase() {
-       databaseRefernece.child("goalList").child(friendUid).addValueEventListener(new ValueEventListener() {
+        databaseRefernece.child("goalList").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -85,8 +88,11 @@ public class FriendDetailActivity extends AppCompatActivity {
                         adapter.addItem(goal, date, data);
 
                     } else {
+
                         adapter.addItem(goal, data);
+
                     }
+
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -96,18 +102,16 @@ public class FriendDetailActivity extends AppCompatActivity {
             }
         });
 
-        databaseRefernece.child("users").child(friendUid).child("userName").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user_name.setText(snapshot.getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
 
     }
+
+
+    View.OnClickListener goInputPage = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startInputActivity();
+        }
+    };
 
     View.OnClickListener goFriendPage = new View.OnClickListener() {
         @Override
@@ -115,31 +119,57 @@ public class FriendDetailActivity extends AppCompatActivity {
             startFriendActivity();
         }
     };
-    View.OnClickListener deleteFriend = new View.OnClickListener() {
+
+    View.OnClickListener homeMenu = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            final PopupMenu popup = new PopupMenu(getApplicationContext(), view);
+            getMenuInflater().inflate(R.menu.main_menu, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.logout_menu:
 
-            new AlertDialog.Builder(FriendDetailActivity.this)
-                    .setMessage("친구를 삭제하겠습니까 ?")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            databaseRefernece.child("users").child(uid).child("friend").removeValue();
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Toast.makeText(getApplicationContext(), "삭제하지 않습니다", Toast.LENGTH_SHORT).show();
-                        }
-                    }).show();
+                            new AlertDialog.Builder(HomeActivity.this)
+                                    .setTitle(Html.fromHtml("<font color='#000000'>로그아웃 하시겠습니까?</font>"))
+                                    .setPositiveButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(getApplicationContext(), "로그아웃하지 않습니다", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    })
+                                    .setNegativeButton(Html.fromHtml("<font color='#000000'>예</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            FirebaseAuth.getInstance().signOut();
+                                            startLoginActivity();
+                                        }
+                                    }).show();
+                            break;
+                        case R.id.profile_edit_menu:
+                            startprofileActivity();
+                            break;
+
+                        default:
+                            break;
+                    }
+                    return false;
+                }
+
+            });
+            popup.show();
         }
     };
 
-
     private void startSignupActivity() {
         Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
+    }
+
+    private void startLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -148,9 +178,14 @@ public class FriendDetailActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void startprofileActivity() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+
     private void startFriendActivity() {
         Intent intent = new Intent(this, FriendActivity.class);
-        intent.putExtra("uid",uid);
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-package com.sacol.sharinggoal;
+package kr.hs.emirim.sharinggoal;
 
 import android.content.Intent;
 import android.os.Bundle;
