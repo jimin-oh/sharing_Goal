@@ -32,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
     private CircleImageView profile_image;
     private DatabaseReference databaseReference;
     private ImageView back_btn;
+    private ImageView seeProfile;
     private final int GET_GALLERY_IMAGE = 200;
     private EditText name;
     private EditText introduce_line;
@@ -63,6 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
         profile_image_edit = findViewById(R.id.profile_image_edit);
         profile_Introduce_edit = findViewById(R.id.profile_Introduce_edit);
         profile_serch_edit = findViewById(R.id.profile_serch_edit);
+        seeProfile = findViewById(R.id.seeProfile);
         radiotrue = findViewById(R.id.radiotrue);
         radiofalse = findViewById(R.id.radiofalse);
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -77,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         profile_image_edit.setOnClickListener(changeImage);
         profile_Introduce_edit.setOnClickListener(changeIntroduce);
         profile_serch_edit.setOnClickListener(changeSearch);
+        seeProfile.setOnClickListener(seeMyProfile);
         databaseInit();
 
     }
@@ -154,6 +157,14 @@ public class ProfileActivity extends AppCompatActivity {
             databaseReference.child("users").child(uid).child("userSearch").setValue(radiotrue.isChecked());
             showToast("변경되었습니다. ");
 
+        }
+    };
+    View.OnClickListener seeMyProfile = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), FriendDetailActivity.class);
+            intent.putExtra("friendUid",uid);
+            startActivity(intent);
         }
     };
     View.OnClickListener changeImage = new View.OnClickListener() {

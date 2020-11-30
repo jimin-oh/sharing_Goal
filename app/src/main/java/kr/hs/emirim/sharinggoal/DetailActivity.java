@@ -30,6 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -63,11 +64,15 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         goal = intent.getExtras().getString("goal");
         data = intent.getExtras().getString("data");
+        if (intent.getExtras().getString("friendUid")==null){
+            uid = FirebaseAuth.getInstance().getUid();
+        }else{
+            uid = intent.getExtras().getString("friendUid");
+        }
         current_goal = findViewById(R.id.current_goal);
         current_goal.setText(goal);
         back_btn = findViewById(R.id.back_btn);
         calendarView = findViewById(R.id.calendarView);
-        uid = FirebaseAuth.getInstance().getUid();
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
         transFormat = new SimpleDateFormat("yyyy/MM/dd");
         calendarView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
@@ -90,8 +95,8 @@ public class DetailActivity extends AppCompatActivity {
         databaseRefernece.child("goalList").child(uid).child(data).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                current_date = snapshot.child("current_date").getValue().toString();
                 try {
+                    current_date = Objects.requireNonNull(snapshot.child("current_date").getValue()).toString();
                     to = transFormat.parse(current_date);
                     calendarView.state().edit()
                             .setMinimumDate(to)
@@ -101,9 +106,9 @@ public class DetailActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                if (String.valueOf(snapshot.getChildrenCount()).equals("3")) {
-                    end_date = snapshot.child("date").getValue().toString();
+                if ( snapshot.child("date").getValue()!=null) {
                     try {
+                        end_date = snapshot.child("date").getValue().toString();
                         to = transFormat.parse(end_date);
                         calendarView.state().edit()
                                 .setMaximumDate(to)

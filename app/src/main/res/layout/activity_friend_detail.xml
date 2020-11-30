@@ -29,10 +29,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="6dp"
         android:text="이름"
         android:textColor="@color/black"
+        android:layout_marginBottom="6dp"
         android:textSize="24sp" />
+    <TextView
+        android:id="@+id/user_introduce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="6dp"
+        android:text="한줄소개입니다 "
+        android:textColor="@color/black"
+        android:visibility="gone"
+        android:textSize="16sp" />
 
     <View
         android:layout_width="70dp"

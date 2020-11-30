@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FriendActivity extends AppCompatActivity {
 
     private ImageView back_btn;
@@ -62,22 +65,137 @@ public class FriendActivity extends AppCompatActivity {
         });
     }
 
-    private void showDialog(View view){
+    View.OnClickListener Activityfinish = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finish();
+        }
+    };
+
+    View.OnClickListener plusFriend = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            showDialog();
+        }
+    };
+
+
+    private void initDatabase() {
+        databaseRefernece.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = adapter.getCount();
+                for (int i = 0; i < count; i++) {
+                    adapter.remove(i);
+                }
+                for (DataSnapshot friendEmail : snapshot.child("friend").getChildren()) {
+                    final String email = friendEmail.getValue().toString();
+                    databaseRefernece.child("users").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot user : snapshot.getChildren()) {
+                                if (user.child("email").getValue().toString().equals(email)) {
+                                    final String friend_uid = user.getKey();
+                                    final String friend_profile = null;
+                                    databaseRefernece.child("users").child(friend_uid).child("userName").addValueEventListener(new ValueEventListener() {
+
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                            final String friend_name = snapshot.getValue().toString();
+                                            databaseRefernece.child("goalList").child(friend_uid).addValueEventListener(new ValueEventListener() {
+
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    String friend_goal = "진행중인 목표 :  " + String.valueOf(snapshot.getChildrenCount()) + "개";
+                                                    if (friend_profile == null) {
+                                                        adapter.addItem(friend_uid, friend_name, friend_goal);
+
+                                                    } else {
+                                                        adapter.addItem(friend_profile, friend_uid, friend_name, friend_goal);
+
+                                                    }
+                                                    adapter.notifyDataSetChanged();
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+
+                                    });
+
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void showDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(FriendActivity.this);
         alert.setTitle("친구 등록");
         alert.setMessage("등록할 친구의 이메일을 작성해주세요");
-        final EditText name = new EditText(getApplicationContext());
-        name.setHint("이메일을 입력해주세요");
-        alert.setView(name);
+        final EditText email = new EditText(getApplicationContext());
+        email.setHint("이메일을 입력해주세요");
+        alert.setView(email);
         alert.setPositiveButton(Html.fromHtml("<font color='#000000'>확인</font>"), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 databaseRefernece.child("users").addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean i = false;
                         for (DataSnapshot user : snapshot.getChildren()) {
+                            if (user.child("email").getValue().toString().equals(email.getText().toString())) {
+                                if (user.child("friendSearch").getValue() == null || user.child("friendSearch").getValue().toString().equals("true")) {
+                                    i = true;
+                                    final String name = user.child("userName").getValue().toString();
+                                    new AlertDialog.Builder(FriendActivity.this)
+                                            .setTitle(Html.fromHtml("<font color='#000000'>찬구 \'" + user.child("userName").getValue().toString() + "\' 님을 추가하시겠습니까?</font>"))
+                                            .setPositiveButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Toast.makeText(getApplicationContext(), "추가하지 않았습니다", Toast.LENGTH_SHORT).show();
 
+                                                }
+                                            })
+                                            .setNegativeButton(Html.fromHtml("<font color='#000000'>예</font>"), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    Map<String, Object> friendEmail = new HashMap<>();
+                                                    friendEmail.put(name + "email", email.getText().toString());
+                                                    databaseRefernece.child("users").child(uid).child("friend").setValue(friendEmail);
 
+                                                }
+                                            }).show();
+                                }
+
+                            }
+                        }
+                        if (!i) {
+                            showToast("공개를 원하지 않거나 없는 사용자입니다.");
                         }
                     }
 
@@ -92,76 +210,14 @@ public class FriendActivity extends AppCompatActivity {
 
         alert.show();
     }
-    View.OnClickListener Activityfinish = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            finish();
-        }
-    };
-
-    View.OnClickListener plusFriend = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            showDialog(view);
-        }
-    };
-    private void showToast(String str) {
-        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
-    }
-    private void initDatabase() {
-        databaseRefernece.child("users").child(uid).child("friend").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot friend : snapshot.getChildren()) {
-                    String friend_uid = friend.getValue().toString();
-                    database_friend_name(friend_uid);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-
-
-    private void database_friend_name(final String friend_uid) {
-        databaseRefernece.child("users").child(friend_uid).child("userName").addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String friend_name = snapshot.getValue().toString();
-                database_friend_goal(friend_uid, friend_name);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
-    }
-
-    private void database_friend_goal(final String friend_uid, final String friend_name) {
-        databaseRefernece.child("goalList").child(friend_uid).addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String friend_goal = "진행중인 목표 :  " + String.valueOf(snapshot.getChildrenCount()) + "개";
-                adapter.addItem(friend_uid, friend_name, friend_goal);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     private void startFriendDetailActivity(int position) {
         Intent intent = new Intent(this, FriendDetailActivity.class);
         intent.putExtra("friendUid", adapter.getFriendUid(position).toString());
         startActivity(intent);
+    }
+
+    private void showToast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
 }

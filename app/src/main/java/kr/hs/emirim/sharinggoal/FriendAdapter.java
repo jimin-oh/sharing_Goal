@@ -8,7 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendAdapter extends BaseAdapter {
     private ArrayList<FriendItem> listViewItemList = new ArrayList<FriendItem>();
@@ -16,6 +20,7 @@ public class FriendAdapter extends BaseAdapter {
     public FriendAdapter() {
 
     }
+
 
     @Override
     public int getCount() {
@@ -36,6 +41,7 @@ public class FriendAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_freiend, parent, false);
         }
 
+        CircleImageView freiend_profile = convertView.findViewById(R.id.freiend_profile);
         TextView freiend_name =  convertView.findViewById(R.id.freiend_name);
         TextView freiend_goal =  convertView.findViewById(R.id.freiend_goal);
 
@@ -44,6 +50,13 @@ public class FriendAdapter extends BaseAdapter {
         freiend_goal.setText(friendItem.getFriend_goal());
         freiend_name.setText(friendItem.getFriend_name());
 
+        if (friendItem.getImage()!=null){
+            Glide
+                    .with(context)
+                    .load(friendItem.getImage())
+                    .into(freiend_profile);
+
+        }
 
         return convertView;
     }
@@ -52,6 +65,9 @@ public class FriendAdapter extends BaseAdapter {
         return listViewItemList.get(position).getFriend_uid();
     }
 
+    public void remove(int index){
+        listViewItemList.remove(index);
+    }
 
     @Override
     public long getItemId(int position) {
@@ -60,6 +76,15 @@ public class FriendAdapter extends BaseAdapter {
 
     public void addItem(String friend_uid, String friend_name, String friend_goal) {
         FriendItem item = new FriendItem();
+        item.setFriend_uid(friend_uid);
+        item.setFriend_name(friend_name);
+        item.setFriend_goal(friend_goal);
+
+        listViewItemList.add(item);
+    }
+    public void addItem(String friend_profile,String friend_uid, String friend_name, String friend_goal) {
+        FriendItem item = new FriendItem();
+        item.setImage(friend_profile);
         item.setFriend_uid(friend_uid);
         item.setFriend_name(friend_name);
         item.setFriend_goal(friend_goal);
