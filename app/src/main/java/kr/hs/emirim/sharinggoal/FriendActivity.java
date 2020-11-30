@@ -96,7 +96,13 @@ public class FriendActivity extends AppCompatActivity {
                             for (DataSnapshot user : snapshot.getChildren()) {
                                 if (user.child("email").getValue().toString().equals(email)) {
                                     final String friend_uid = user.getKey();
-                                    final String friend_profile = null;
+                                    String friend_profile = null;
+
+                                    if(user.child("profileImg").getValue()==null){
+
+                                        friend_profile = user.child("profileImg").getValue().toString();
+                                    }
+                                    final String finalFriend_profile = friend_profile;
                                     databaseRefernece.child("users").child(friend_uid).child("userName").addValueEventListener(new ValueEventListener() {
 
                                         @Override
@@ -108,11 +114,11 @@ public class FriendActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     String friend_goal = "진행중인 목표 :  " + String.valueOf(snapshot.getChildrenCount()) + "개";
-                                                    if (friend_profile == null) {
+                                                    if (finalFriend_profile == null) {
                                                         adapter.addItem(friend_uid, friend_name, friend_goal);
 
                                                     } else {
-                                                        adapter.addItem(friend_profile, friend_uid, friend_name, friend_goal);
+                                                        adapter.addItem(finalFriend_profile, friend_uid, friend_name, friend_goal);
 
                                                     }
                                                     adapter.notifyDataSetChanged();

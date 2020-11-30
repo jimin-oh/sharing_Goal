@@ -83,7 +83,8 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
                     data = goalDate.getKey();
-                    if (String.valueOf(goalDate.getChildrenCount()).equals("3")) {
+
+                    if (goalDate.child("date").getValue()!=null) {
                         date = goalDate.child("date").getValue().toString();
                         adapter.addItem(goal, date, data);
 
