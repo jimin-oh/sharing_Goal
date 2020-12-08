@@ -15,9 +15,15 @@ public class HomeItem {
         this.goal = goal;
     }
 
-    public HomeItem(String date, String goal) {
+    public HomeItem(String goal , String address) {
+        this.address = address;
+        this.goal = goal;
+    }
+
+    public HomeItem(String goal, String date,String address) {
         this.date = date;
         this.goal = goal;
+        this.address = address;
     }
 
     public void setDate(String date) {

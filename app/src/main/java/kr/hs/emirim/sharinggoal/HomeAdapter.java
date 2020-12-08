@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class HomeAdapter extends BaseAdapter {
     private ArrayList<HomeItem> listViewItemList = new ArrayList<HomeItem>();
 
-    public HomeAdapter() {
-
+    public HomeAdapter( ArrayList<HomeItem> listViewItemList) {
+        this.listViewItemList = listViewItemList;
     }
 
     @Override
@@ -62,6 +62,7 @@ public class HomeAdapter extends BaseAdapter {
     public Object getAddress(int position) {
         return listViewItemList.get(position).getAddress();
     }
+
     public void addItem(String goal, String date, String address) {
         HomeItem item = new HomeItem();
 

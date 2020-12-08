@@ -6,11 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,8 +29,10 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -56,6 +55,9 @@ public class DetailActivity extends AppCompatActivity {
     private String clickData;
     private View view5;
     private Date to;
+    private List<String> databool;
+    private Activity context;
+
 
 
     @Override
@@ -71,6 +73,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         Intent intent = getIntent();
         goal = intent.getExtras().getString("goal");
         data = intent.getExtras().getString("data");
@@ -88,13 +91,13 @@ public class DetailActivity extends AppCompatActivity {
         cancle_goal = findViewById(R.id.cancle_goal);
         detail_more = findViewById(R.id.detail_more);
         view5 = findViewById(R.id.view5);
+        databool = new ArrayList<String>();
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
         transFormat = new SimpleDateFormat("yyyy/MM/dd");
         calendarView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
-        calendarView.addDecorators(
-                new GoalDecorator(this,uid,data)
-        );
-        if (uid == FirebaseAuth.getInstance().getUid()) {
+        context = this;
+
+        if (uid.equals(FirebaseAuth.getInstance().getUid())) {
             final CalendarDay today = CalendarDay.today();
 
             calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -116,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
                                 for (DataSnapshot date : snapshot.getChildren()) {
 
                                     for (DataSnapshot date_goal : date.getChildren()) {
-                                        if (date_goal.getKey().toString().equals(clickData)) {
+                                        if (date_goal.getKey().equals(clickData)) {
                                             i[0] = 1;
                                             goalQ.setVisibility(View.GONE);
                                         }
@@ -151,7 +154,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 try {
-                    current_date = Objects.requireNonNull(snapshot.child("current_date").getValue()).toString();
+                    current_date = snapshot.child("current_date").getValue().toString();
                     to = transFormat.parse(current_date);
                     calendarView.state().edit()
                             .setMinimumDate(to)
@@ -181,6 +184,28 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        databaseRefernece.child("goalList").child(uid).child(data).child("date_goal").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot date : snapshot.getChildren()) {
+
+                    for (DataSnapshot date_goal : date.getChildren()) {
+                      if (date.getKey().equals("true")){
+                          databool.add(date_goal.getKey().toString());
+                      }
+                    }
+                }
+                calendarView.addDecorators(
+                        new GoalDecorator(context,databool)
+                );
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
     }
 
     private void setUp() {
@@ -197,7 +222,7 @@ public class DetailActivity extends AppCompatActivity {
     View.OnClickListener cancleGoal = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            databaseRefernece.child("goalList").child(uid).child(data).child("date_goal").child("false").child(clickData).setValue("true");
+            databaseRefernece.child("goalList").child(uid).child(data).child("date_goal").child("false").child(clickData).setValue("false");
 
         }
     };
@@ -221,16 +246,14 @@ class GoalDecorator implements DayViewDecorator {
     private final Calendar calendar = Calendar.getInstance();
     private CalendarDay date;
     private Activity context;
-    private String uid;
-    private String data;
-    private DatabaseReference  databaseRefernece = FirebaseDatabase.getInstance().getReference();
-    public GoalDecorator(Activity context,String uid,String data) {
+
+    private List<String> databool= new ArrayList<>();
+
+    public GoalDecorator(Activity context,List<String> datebool) {
         this.context = context;
         drawable = context.getResources().getDrawable(R.drawable.calendar_back_item);
         date = CalendarDay.from(calendar);
-        this.uid = uid;
-        this.data = data;
-
+        this.databool = datebool;
     }
 
     @Override
@@ -239,29 +262,13 @@ class GoalDecorator implements DayViewDecorator {
 
         day.copyTo(calendar);
         final String date1 = String.format("%02d%02d%02d", day.getYear(), day.getMonth() + 1, day.getDay());
-//        showToast(date1+"20201130");
-        final boolean[] n = {false};
-        databaseRefernece.child("goalList").child(uid).child(data).child("date_goal").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot date : snapshot.getChildren()) {
-
-                    for (DataSnapshot date_goal : date.getChildren()) {
-                        if (date_goal.getKey().toString().equals(date1)){
-                           showToast("같다");
-                           n[0] =true;
-                        }
-                    }
-                }
+        for(int i =0; i< databool.size(); i++){
+            if (databool.get(i).equals(date1)){
+                return true;
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        return n[0];
+        }
+        return false;
 
     }
 
@@ -270,7 +277,6 @@ class GoalDecorator implements DayViewDecorator {
         view.setBackgroundDrawable(drawable);
     }
 
-    public void showToast(String str) {
-        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
-    }
 }
+
+

@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class HomeActivity extends AppCompatActivity {
 
     private ImageView menu_bar;
@@ -33,8 +35,9 @@ public class HomeActivity extends AppCompatActivity {
     final private String uid = FirebaseAuth.getInstance().getUid();
     private DatabaseReference databaseRefernece;
     private LinearLayout go_friend;
+    private ArrayList<HomeItem> listViewItemList = new ArrayList<HomeItem>();
 
-    private String data;
+    private String addrees;
     private String goal;
     private String date;
 
@@ -55,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void init() {
         add_btn = findViewById(R.id.add_btn);
-        adapter = new HomeAdapter();
+        adapter = new HomeAdapter(listViewItemList);
         listview = findViewById(R.id.goal_list);
         listview.setAdapter(adapter);
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
@@ -80,18 +83,19 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                listViewItemList.clear();
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
-                    data = goalDate.getKey();
+                    addrees = goalDate.getKey();
 
                     if (goalDate.child("date").getValue()!=null) {
                         date = goalDate.child("date").getValue().toString();
-                        adapter.addItem(goal, date, data);
+//                        adapter.addItem(goal, date, addrees);
 
+                        listViewItemList.add(new HomeItem(goal,date,addrees));
                     } else {
 
-                        adapter.addItem(goal, data);
-
+                        listViewItemList.add(new HomeItem(goal,addrees));
                     }
 
                 }

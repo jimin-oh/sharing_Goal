@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendDetailActivity extends AppCompatActivity {
@@ -35,6 +37,7 @@ public class FriendDetailActivity extends AppCompatActivity {
     private TextView del_friend;
     private TextView user_introduce;
     private CircleImageView profile_image;
+    private ArrayList<HomeItem> listViewItemList = new ArrayList<HomeItem>();
 
     private String data;
     private String goal;
@@ -52,7 +55,7 @@ public class FriendDetailActivity extends AppCompatActivity {
 
 
     private void init() {
-        adapter = new HomeAdapter();
+        adapter = new HomeAdapter(listViewItemList);
         listview = findViewById(R.id.goal_list);
         listview.setAdapter(adapter);
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
@@ -87,10 +90,9 @@ public class FriendDetailActivity extends AppCompatActivity {
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
                     data = goalDate.getKey();
-                    if (String.valueOf(goalDate.getChildrenCount()).equals("3")) {
+                    if(goalDate.child("date").getValue()!=null){
                         date = goalDate.child("date").getValue().toString();
                         adapter.addItem(goal, date, data);
-
                     } else {
                         adapter.addItem(goal, data);
                     }
