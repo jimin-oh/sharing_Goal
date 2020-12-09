@@ -102,8 +102,7 @@ public class FriendActivity extends AppCompatActivity {
                                     final String friend_uid = user.getKey();
                                     String friend_profile = null;
 
-                                    if(user.child("profileImg").getValue()==null){
-
+                                    if(user.child("profileImg").getValue()!=null){
                                         friend_profile = user.child("profileImg").getValue().toString();
                                     }
                                     final String finalFriend_profile = friend_profile;
@@ -119,11 +118,8 @@ public class FriendActivity extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     String friend_goal = "진행중인 목표 :  " + String.valueOf(snapshot.getChildrenCount()) + "개";
                                                     if (finalFriend_profile == null) {
-//                                                        adapter.addItem(friend_uid, friend_name, friend_goal);
-
                                                         listViewItemList.add(new FriendItem(friend_uid, friend_name, friend_goal));
                                                     } else {
-//                                                        adapter.addItem(finalFriend_profile, friend_uid, friend_name, friend_goal);
                                                         listViewItemList.add(new FriendItem(friend_uid, friend_name, friend_goal,finalFriend_profile));
 
                                                     }
@@ -186,14 +182,14 @@ public class FriendActivity extends AppCompatActivity {
                                     final String name = user.child("userName").getValue().toString();
                                     new AlertDialog.Builder(FriendActivity.this)
                                             .setTitle(Html.fromHtml("<font color='#000000'>찬구 \'" + user.child("userName").getValue().toString() + "\' 님을 추가하시겠습니까?</font>"))
-                                            .setPositiveButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {
+                                            .setNegativeButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     Toast.makeText(getApplicationContext(), "추가하지 않았습니다", Toast.LENGTH_SHORT).show();
 
                                                 }
                                             })
-                                            .setNegativeButton(Html.fromHtml("<font color='#000000'>예</font>"), new DialogInterface.OnClickListener() {
+                                            .setPositiveButton(Html.fromHtml("<font color='#000000'>예</font>"), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     Map<String, Object> friendEmail = new HashMap<>();

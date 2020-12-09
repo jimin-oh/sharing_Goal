@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -135,7 +134,6 @@ public class DetailActivity extends AppCompatActivity {
                                                         i[0] = 1;
                                                         goalQ.setVisibility(View.GONE);
                                                     }
-
                                                 }
                                             }
                                         }
@@ -286,9 +284,6 @@ public class DetailActivity extends AppCompatActivity {
                                         }
                                     }).show();
                             break;
-                        case R.id.goal_edit:
-//                            startprofileActivity();
-                            break;
                         case R.id.delete:
                             new AlertDialog.Builder(DetailActivity.this)
                                     .setTitle(Html.fromHtml("<font color='#000000'>삭제 하시겠습니까?</font>"))
@@ -322,43 +317,3 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 }
-
-class GoalDecorator implements DayViewDecorator {
-    private Drawable drawable;
-    private final Calendar calendar = Calendar.getInstance();
-    private CalendarDay date;
-    private Activity context;
-
-    private List<String> databool = new ArrayList<>();
-
-    public GoalDecorator(Activity context, List<String> datebool) {
-        this.context = context;
-        drawable = context.getResources().getDrawable(R.drawable.calendar_back_item);
-        date = CalendarDay.from(calendar);
-        this.databool = datebool;
-    }
-
-    @Override
-    public boolean shouldDecorate(CalendarDay day) {
-
-
-        day.copyTo(calendar);
-        final String date1 = String.format("%02d%02d%02d", day.getYear(), day.getMonth() + 1, day.getDay());
-
-        for (int i = 0; i < databool.size(); i++) {
-            if (databool.get(i).equals(date1)) {
-                return true;
-            }
-        }
-        return false;
-
-    }
-
-    @Override
-    public void decorate(DayViewFacade view) {
-        view.setBackgroundDrawable(drawable);
-    }
-
-}
-
-

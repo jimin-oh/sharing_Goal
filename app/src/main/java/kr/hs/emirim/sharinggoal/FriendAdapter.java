@@ -58,6 +58,7 @@ public class FriendAdapter extends BaseAdapter {
 
         }
 
+
         return convertView;
     }
 
