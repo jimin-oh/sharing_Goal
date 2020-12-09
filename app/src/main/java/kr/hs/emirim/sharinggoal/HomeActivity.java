@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     private ImageView add_btn;
     private ListView listview;
     private HomeAdapter adapter;
+    private TextView textGoal;
     final private String uid = FirebaseAuth.getInstance().getUid();
     private DatabaseReference databaseRefernece;
     private LinearLayout go_friend;
@@ -40,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     private String addrees;
     private String goal;
     private String date;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
         go_friend = findViewById(R.id.go_friend);
         menu_bar = findViewById(R.id.menu_bar);
+        textGoal = findViewById(R.id.textGoal);
     }
 
     private void setup() {
@@ -76,6 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         go_friend.setOnClickListener(goFriendPage);
         menu_bar.setOnClickListener(homeMenu);
+        textGoal.setOnClickListener(goGoalPage);
     }
 
     private void initDatabase() {
@@ -88,15 +93,16 @@ public class HomeActivity extends AppCompatActivity {
                     goal = goalDate.child("goal").getValue().toString();
                     addrees = goalDate.getKey();
 
-                    if (goalDate.child("date").getValue()!=null) {
-                        date = goalDate.child("date").getValue().toString();
-//                        adapter.addItem(goal, date, addrees);
+                    if (goalDate.child("close").getValue()==null){
+                        if (goalDate.child("date").getValue()!=null) {
+                            date = goalDate.child("date").getValue().toString();
 
-                        listViewItemList.add(new HomeItem(goal,date,addrees));
-                    } else {
-
-                        listViewItemList.add(new HomeItem(goal,addrees));
+                            listViewItemList.add(new HomeItem(goal,date,addrees));
+                        } else {
+                            listViewItemList.add(new HomeItem(goal,addrees));
+                        }
                     }
+
 
                 }
                 adapter.notifyDataSetChanged();
@@ -122,6 +128,13 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             startFriendActivity();
+        }
+    };
+
+    View.OnClickListener goGoalPage = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startGoalActivity();
         }
     };
 
@@ -174,6 +187,11 @@ public class HomeActivity extends AppCompatActivity {
 
     private void startLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    private void startGoalActivity() {
+        Intent intent = new Intent(this, GoalActivity.class);
         startActivity(intent);
     }
 

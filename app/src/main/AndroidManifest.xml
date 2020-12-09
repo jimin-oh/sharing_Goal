@@ -26,6 +26,7 @@
         <activity android:name="MainActivity" />
         <activity android:name="FriendActivity"/>
         <activity android:name="FriendDetailActivity"/>
+        <activity android:name=".GoalActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/menu" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/textGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="38dp"

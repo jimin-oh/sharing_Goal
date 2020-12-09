@@ -4,4 +4,6 @@
         android:id="@+id/close"/>
     <item android:title="목표 변경"
         android:id="@+id/goal_edit"/>
+    <item android:title="목표 삭제"
+        android:id="@+id/delete"/>
 </menu>

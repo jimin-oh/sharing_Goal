@@ -2,15 +2,20 @@ package kr.hs.emirim.sharinggoal;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +64,6 @@ public class DetailActivity extends AppCompatActivity {
     private Activity context;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,52 +101,71 @@ public class DetailActivity extends AppCompatActivity {
         calendarView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
         context = this;
 
-        if (uid.equals(FirebaseAuth.getInstance().getUid())) {
-            final CalendarDay today = CalendarDay.today();
+        databaseRefernece.child("goalList").child(uid).child(data).addValueEventListener(new ValueEventListener() {
 
-            calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-                @Override
-                public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                    int now =Integer.parseInt(String.format("%02d%02d%02d", today.getYear(), today.getMonth() + 1, today.getDay()));
-                    int select = Integer.parseInt(String.format("%02d%02d%02d", date.getYear(), date.getMonth() + 1, date.getDay()));
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("close").getValue()==null ){
+                    if (uid.equals(FirebaseAuth.getInstance().getUid())) {
 
-                    clickData = String.valueOf(select);
-                    if (select > now) {
-                        showToast("미래 날짜 입니다.");
-                        goalQ.setVisibility(View.GONE);
-                    } else {
-                        final int[] i = {0};
-                        databaseRefernece.child("goalList").child(uid).child(data).child("date_goal").addValueEventListener(new ValueEventListener() {
+                        final CalendarDay today = CalendarDay.today();
+
+                        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                                int now = Integer.parseInt(String.format("%02d%02d%02d", today.getYear(), today.getMonth() + 1, today.getDay()));
+                                int select = Integer.parseInt(String.format("%02d%02d%02d", date.getYear(), date.getMonth() + 1, date.getDay()));
 
-                                for (DataSnapshot date : snapshot.getChildren()) {
+                                clickData = String.valueOf(select);
 
-                                    for (DataSnapshot date_goal : date.getChildren()) {
-                                        if (date_goal.getKey().equals(clickData)) {
-                                            i[0] = 1;
-                                            goalQ.setVisibility(View.GONE);
+                                if (select > now) {
+                                    showToast("미래 날짜 입니다.");
+                                    goalQ.setVisibility(View.GONE);
+                                } else {
+                                    final int[] i = {0};
+                                    databaseRefernece.child("goalList").child(uid).child(data).child("date_goal").addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                            for (DataSnapshot date : snapshot.getChildren()) {
+
+                                                for (DataSnapshot date_goal : date.getChildren()) {
+
+                                                    if (date_goal.getKey().equals(clickData)) {
+                                                        i[0] = 1;
+                                                        goalQ.setVisibility(View.GONE);
+                                                    }
+
+                                                }
+                                            }
                                         }
 
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                        }
+                                    });
+                                    if (i[0] == 0) {
+                                        goalQ.setVisibility(View.VISIBLE);
                                     }
+
                                 }
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
                         });
-                        if (i[0] == 0) {
-                            goalQ.setVisibility(View.VISIBLE);
-                        }
-
+                    } else {
+                        detail_more.setVisibility(View.GONE);
+                        view5.setVisibility(View.VISIBLE);
                     }
+                }else {
+                    detail_more.setVisibility(View.GONE);
                 }
-            });
-        } else {
-            detail_more.setVisibility(View.GONE);
-            view5.setVisibility(View.VISIBLE);
-        }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
 
     }
@@ -191,13 +214,13 @@ public class DetailActivity extends AppCompatActivity {
                 for (DataSnapshot date : snapshot.getChildren()) {
 
                     for (DataSnapshot date_goal : date.getChildren()) {
-                      if (date.getKey().equals("true")){
-                          databool.add(date_goal.getKey().toString());
-                      }
+                        if (date.getKey().equals("true")) {
+                            databool.add(date_goal.getKey().toString());
+                        }
                     }
                 }
                 calendarView.addDecorators(
-                        new GoalDecorator(context,databool)
+                        new GoalDecorator(context, databool)
                 );
             }
 
@@ -217,6 +240,7 @@ public class DetailActivity extends AppCompatActivity {
         });
         cancle_goal.setOnClickListener(cancleGoal);
         check_goal.setOnClickListener(checkGoal);
+        detail_more.setOnClickListener(showDetailMenu);
     }
 
     View.OnClickListener cancleGoal = new View.OnClickListener() {
@@ -235,6 +259,64 @@ public class DetailActivity extends AppCompatActivity {
         }
     };
 
+    View.OnClickListener showDetailMenu = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final PopupMenu popup = new PopupMenu(getApplicationContext(), view);
+            getMenuInflater().inflate(R.menu.detail_menu, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.close:
+                            new AlertDialog.Builder(DetailActivity.this)
+                                    .setTitle(Html.fromHtml("<font color='#000000'>목표를 종료 하시겠습니까?</font>"))
+                                    .setPositiveButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(getApplicationContext(), "종료하지 않습니다", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    })
+                                    .setNegativeButton(Html.fromHtml("<font color='#000000'>예</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            databaseRefernece.child("goalList").child(uid).child(data).child("close").setValue("true");
+
+                                        }
+                                    }).show();
+                            break;
+                        case R.id.goal_edit:
+//                            startprofileActivity();
+                            break;
+                        case R.id.delete:
+                            new AlertDialog.Builder(DetailActivity.this)
+                                    .setTitle(Html.fromHtml("<font color='#000000'>삭제 하시겠습니까?</font>"))
+                                    .setPositiveButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(getApplicationContext(), "삭제하지 않습니다", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    })
+                                    .setNegativeButton(Html.fromHtml("<font color='#000000'>예</font>"), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            databaseRefernece.child("goalList").child(uid).child(data).removeValue();
+                                        }
+                                    }).show();
+                            break;
+                        default:
+                            break;
+                    }
+                    return false;
+                }
+
+            });
+            popup.show();
+        }
+    };
+
     public void showToast(String str) {
         Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
@@ -247,9 +329,9 @@ class GoalDecorator implements DayViewDecorator {
     private CalendarDay date;
     private Activity context;
 
-    private List<String> databool= new ArrayList<>();
+    private List<String> databool = new ArrayList<>();
 
-    public GoalDecorator(Activity context,List<String> datebool) {
+    public GoalDecorator(Activity context, List<String> datebool) {
         this.context = context;
         drawable = context.getResources().getDrawable(R.drawable.calendar_back_item);
         date = CalendarDay.from(calendar);
@@ -263,8 +345,8 @@ class GoalDecorator implements DayViewDecorator {
         day.copyTo(calendar);
         final String date1 = String.format("%02d%02d%02d", day.getYear(), day.getMonth() + 1, day.getDay());
 
-        for(int i =0; i< databool.size(); i++){
-            if (databool.get(i).equals(date1)){
+        for (int i = 0; i < databool.size(); i++) {
+            if (databool.get(i).equals(date1)) {
                 return true;
             }
         }
