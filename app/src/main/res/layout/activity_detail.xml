@@ -61,7 +61,7 @@
             android:id="@+id/detail_more"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginStart="70dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
             app:srcCompat="@drawable/more" />
 

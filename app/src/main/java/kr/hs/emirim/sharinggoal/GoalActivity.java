@@ -90,8 +90,10 @@ public class GoalActivity extends AppCompatActivity {
                                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                                     goal = goalDate.child("goal").getValue().toString();
                                     addrees = goalDate.getKey();
-
-                                    if (goalDate.child("date").getValue() != null) {
+                                    if (goalDate.child("close").getValue() != null) {
+                                        date = "끝난 목표";
+                                        listViewItemList.add(new HomeItem(goal, date, addrees));
+                                    }else if (goalDate.child("date").getValue() != null) {
                                         date = goalDate.child("date").getValue().toString();
                                         listViewItemList.add(new HomeItem(goal, date, addrees));
                                     } else {
@@ -121,7 +123,6 @@ public class GoalActivity extends AppCompatActivity {
                                     if (goalDate.child("close").getValue() == null) {
                                         if (goalDate.child("date").getValue() != null) {
                                             date = goalDate.child("date").getValue().toString();
-
                                             listViewItemList.add(new HomeItem(goal, date, addrees));
                                         } else {
                                             listViewItemList.add(new HomeItem(goal, addrees));
@@ -149,15 +150,12 @@ public class GoalActivity extends AppCompatActivity {
                                     goal = goalDate.child("goal").getValue().toString();
                                     addrees = goalDate.getKey();
 
-                                    if (goalDate.child("close").getValue() != null) {
-                                        if (goalDate.child("date").getValue() != null) {
-                                            date = goalDate.child("date").getValue().toString();
 
-                                            listViewItemList.add(new HomeItem(goal, date, addrees));
-                                        } else {
-                                            listViewItemList.add(new HomeItem(goal, addrees));
-                                        }
+                                    if (goalDate.child("close").getValue() != null) {
+                                            date = "끝난 목표";
+                                            listViewItemList.add(new HomeItem(goal, date,addrees));
                                     }
+
 
 
                                 }
@@ -171,7 +169,7 @@ public class GoalActivity extends AppCompatActivity {
 
                         break;
 
-                    default:
+
                 }
             }
 
@@ -180,6 +178,9 @@ public class GoalActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void showToast(String str) {
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
     }
 
 

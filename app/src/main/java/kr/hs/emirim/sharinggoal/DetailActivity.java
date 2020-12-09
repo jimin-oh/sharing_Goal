@@ -106,9 +106,9 @@ public class DetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("close").getValue()==null ){
                     if (uid.equals(FirebaseAuth.getInstance().getUid())) {
+                        detail_more.setVisibility(View.VISIBLE);
 
                         final CalendarDay today = CalendarDay.today();
-
                         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
                             @Override
                             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {

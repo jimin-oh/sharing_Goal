@@ -90,12 +90,15 @@ public class FriendDetailActivity extends AppCompatActivity {
                 for (DataSnapshot goalDate : snapshot.getChildren()) {
                     goal = goalDate.child("goal").getValue().toString();
                     data = goalDate.getKey();
-                    if(goalDate.child("date").getValue()!=null){
-                        date = goalDate.child("date").getValue().toString();
-                        adapter.addItem(goal, date, data);
-                    } else {
-                        adapter.addItem(goal, data);
+                    if (goalDate.child("close").getValue()==null){
+                        if(goalDate.child("date").getValue()!=null){
+                            date = goalDate.child("date").getValue().toString();
+                            adapter.addItem(goal, date, data);
+                        } else {
+                            adapter.addItem(goal, data);
+                        }
                     }
+
                 }
                 adapter.notifyDataSetChanged();
             }

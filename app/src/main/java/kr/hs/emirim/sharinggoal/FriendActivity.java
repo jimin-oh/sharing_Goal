@@ -116,7 +116,13 @@ public class FriendActivity extends AppCompatActivity {
 
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    String friend_goal = "진행중인 목표 :  " + String.valueOf(snapshot.getChildrenCount()) + "개";
+                                                    int count =0;
+                                                    for (DataSnapshot goalCount : snapshot.getChildren()) {
+                                                        if (goalCount.child("close").getValue()==null){
+                                                            count++;
+                                                        }
+                                                    }
+                                                    String friend_goal = "진행중인 목표 :  " + String.valueOf(count) + "개";
                                                     if (finalFriend_profile == null) {
                                                         listViewItemList.add(new FriendItem(friend_uid, friend_name, friend_goal));
                                                     } else {
