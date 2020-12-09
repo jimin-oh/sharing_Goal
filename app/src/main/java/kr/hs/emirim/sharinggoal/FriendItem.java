@@ -18,6 +18,11 @@ public class FriendItem {
         this.friend_name = friend_name;
     }
 
+    public FriendItem(String friend_uid, String friend_name, String friend_goal){
+        this.friend_uid = friend_uid;
+        this.friend_name = friend_name;
+        this.friend_goal = friend_goal;
+    }
     public FriendItem(String friend_uid, String friend_name, String friend_goal,String image) {
         this.friend_uid = friend_uid;
         this.friend_name = friend_name;

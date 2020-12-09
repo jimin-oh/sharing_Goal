@@ -17,8 +17,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FriendAdapter extends BaseAdapter {
     private ArrayList<FriendItem> listViewItemList = new ArrayList<FriendItem>();
 
-    public FriendAdapter() {
-
+    public FriendAdapter(ArrayList<FriendItem> listViewItemList ) {
+        this.listViewItemList = listViewItemList;
     }
 
 

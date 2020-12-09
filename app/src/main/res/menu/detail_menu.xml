@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="목표 종료"
+        android:id="@+id/close"/>
+    <item android:title="목표 변경"
+        android:id="@+id/goal_edit"/>
+</menu>

@@ -135,7 +135,6 @@ public class HomeActivity extends AppCompatActivity {
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.logout_menu:
-
                             new AlertDialog.Builder(HomeActivity.this)
                                     .setTitle(Html.fromHtml("<font color='#000000'>로그아웃 하시겠습니까?</font>"))
                                     .setPositiveButton(Html.fromHtml("<font color='#000000'>아니요</font>"), new DialogInterface.OnClickListener() {

@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ public class FriendActivity extends AppCompatActivity {
     private FriendAdapter adapter;
     final private String uid = FirebaseAuth.getInstance().getUid();
     private DatabaseReference databaseRefernece;
+    private ArrayList<FriendItem> listViewItemList = new ArrayList<FriendItem>();
 
 
     @Override
@@ -48,7 +50,7 @@ public class FriendActivity extends AppCompatActivity {
     private void init() {
         plus_btn = findViewById(R.id.plus_btn);
         back_btn = findViewById(R.id.back_btn);
-        adapter = new FriendAdapter();
+        adapter = new FriendAdapter(listViewItemList);
         listview = findViewById(R.id.listview);
         listview.setAdapter(adapter);
         databaseRefernece = FirebaseDatabase.getInstance().getReference();
@@ -93,7 +95,9 @@ public class FriendActivity extends AppCompatActivity {
                     databaseRefernece.child("users").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            listViewItemList.clear();
                             for (DataSnapshot user : snapshot.getChildren()) {
+
                                 if (user.child("email").getValue().toString().equals(email)) {
                                     final String friend_uid = user.getKey();
                                     String friend_profile = null;
@@ -115,10 +119,12 @@ public class FriendActivity extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     String friend_goal = "진행중인 목표 :  " + String.valueOf(snapshot.getChildrenCount()) + "개";
                                                     if (finalFriend_profile == null) {
-                                                        adapter.addItem(friend_uid, friend_name, friend_goal);
+//                                                        adapter.addItem(friend_uid, friend_name, friend_goal);
 
+                                                        listViewItemList.add(new FriendItem(friend_uid, friend_name, friend_goal));
                                                     } else {
-                                                        adapter.addItem(finalFriend_profile, friend_uid, friend_name, friend_goal);
+//                                                        adapter.addItem(finalFriend_profile, friend_uid, friend_name, friend_goal);
+                                                        listViewItemList.add(new FriendItem(friend_uid, friend_name, friend_goal,finalFriend_profile));
 
                                                     }
                                                     adapter.notifyDataSetChanged();
